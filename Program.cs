@@ -7,6 +7,8 @@ var dbConfig = new DatabaseConfig();
 builder.Configuration.Bind("DatabaseConfig", dbConfig);
 
 builder.Services.AddApplicationRepositories(dbConfig);
+builder.Services.AddApplicationServices();
+builder.Services.AddApplicationIdentity();
 builder.Services.AddMvc();
 
 var app = builder.Build();
@@ -29,5 +31,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+await app.SeedDataAsync();
 
 app.Run();

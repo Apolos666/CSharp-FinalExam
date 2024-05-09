@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+@model CSharp_FinalExam.DTOs.IdentityDTOs.UserRegister
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+@if (Model.ErrorMessage != null && Model.ErrorMessage.Any())
+{
+    <div class="text-red-500">
+        @foreach (var error in Model.ErrorMessage)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
+
+<div class="m-10">Hellos</div>
+<div class="flex mx-16 my-10">
+    <div class="flex-1 border-[1px] border-black rounded-l-lg">
+        <div class="m-6">
+            <div class="text-2xl">Welcome !</div>
+            <div class="mt-6">
+                <div class="text-3xl font-bold">Sign up to</div>
+                <div class="">Đăng ký để trải nghiệm dịch vụ của chúng tôi</div>
+            </div>
+            <form asp-controller="Authenticate" asp-action="RegisterUser" method="post" class="mt-8">
+                <div class="">
+                    <label asp-for="UserEmail" class="block">Email</label>
+                    <input asp-for="UserEmail" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="email" placeholder="Enter your email">
+                    <span asp-validation-for="UserEmail" class="text-red-500"></span>
+                </div>
+                <div class="">
+                    <label asp-for="UserName" class="mt-3 block">Username</label>
+                    <input asp-for="UserName" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="text" placeholder="Enter your username">
+                    <span asp-validation-for="UserName" class="text-red-500"></span>
+                </div>
+                <div class="">
+                    <label asp-for="Password" class="mt-3 block">Password</label>
+                    <input asp-for="Password" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="password" placeholder="Enter your password">
+                    <span asp-validation-for="Password" class="text-red-500"></span>
+                </div>
+                <div class="">
+                    <label asp-for="ConfirmPassword" class="mt-3 block">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="password" placeholder="Confirm your password">
+                    <span asp-validation-for="ConfirmPassword" class="text-red-500"></span>
+                </div>
+                <button class="my-8 block w-full p-4 rounded-lg text-white bg-black">Register</button>
+            </form>
+            <div class="text-center my-8">
+                Already have an account? <a asp-controller="Authenticate" asp-action="LoginView" class="font-bold">Login</a>
+            </div>
+        </div>
+    </div>
+    <div class="flex-1">
+        <img class="rounded-r-lg h-full" src="~/images/login/OIG1.wlta.jpg" alt="">
+    </div>
+</div>

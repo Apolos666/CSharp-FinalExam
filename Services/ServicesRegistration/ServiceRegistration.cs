@@ -1,5 +1,6 @@
 ﻿using CSharp_FinalExam.Configurations;
 using CSharp_FinalExam.Data;
+using CSharp_FinalExam.Services.AuthenticationService;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSharp_FinalExam.Services.ServicesRegistration;
@@ -15,6 +16,13 @@ public static class ServiceRegistration
             options.EnableDetailedErrors(databaseConfig.DetailedErrors);
             options.EnableSensitiveDataLogging(databaseConfig.SensitiveDataLogging);
         });
+
+        return service;
+    }
+    
+    public static IServiceCollection AddApplicationServices(this IServiceCollection service)
+    {
+        service.AddScoped<IAuthenticationService, AuthenticationService.AuthenticationService>();
 
         return service;
     }

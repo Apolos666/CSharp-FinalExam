@@ -12,4 +12,10 @@ public class AuthenticateController : Controller
     {
         return View();
     }
+    
+    [Route("register")]
+    public IActionResult Register()
+    {
+        return View();
+    }
 }

@@ -1,6 +1,12 @@
+using CSharp_FinalExam.Configurations;
+using CSharp_FinalExam.Services.ServicesRegistration;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var dbConfig = new DatabaseConfig();
+builder.Configuration.Bind("DatabaseConfig", dbConfig);
+
+builder.Services.AddApplicationRepositories(dbConfig);
 builder.Services.AddMvc();
 
 var app = builder.Build();

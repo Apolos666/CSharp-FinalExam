@@ -8,6 +8,11 @@ public class TypeSafe
         public const string User = "User";
         public const string Contributor = "Contributor";
     }
+    
+    public static class Policies
+    {
+        public const string AdminRequirement = "Admin";
+    }
 
     public static class CookiesName
     {

@@ -1,4 +1,5 @@
 using CSharp_FinalExam.Configurations;
+using CSharp_FinalExam.Infrastructure.CustomMiddleware;
 using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Services.ServicesRegistration;
 
@@ -15,6 +16,7 @@ var jwtConfig = new JwtConfiguration();
 builder.Configuration.Bind("JwtConfig", jwtConfig);
 builder.Services.AddSingleton(jwtConfig);
 builder.Services.AddApplicationJwtAuthentication(jwtConfig);
+builder.Services.AddApplicationAuthorization();
 
 builder.Services.AddMvc();
 
@@ -33,6 +35,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseMiddleware<AccessDeniedRedirectMiddleware>();
 app.UseAuthorization();
 
 app.MapControllerRoute(

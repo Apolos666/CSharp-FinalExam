@@ -30,18 +30,19 @@ public class AuthenticateController : Controller
     
     [HttpPost]
     [Route("loginuser")]
-    public async Task<IActionResult> LoginUser(UserLogin credentials)
+    public async Task<IActionResult> LoginUser(UserLogin userLogin)
     {
         if (!ModelState.IsValid)
         {
-            return View("~/Views/Authenticate/LoginView.cshtml", credentials);
+            return View("~/Views/Authenticate/LoginView.cshtml", userLogin);
         }
 
-        var result = await _authenticationService.Login(credentials);
+        var result = await _authenticationService.Login(userLogin);
         
         if (!result.IsSuccess)
         {
-            return View("~/Views/Authenticate/LoginView.cshtml", credentials);
+            userLogin.ErrorMessage = "Login failed. Please check your username and password.";
+            return View("~/Views/Authenticate/LoginView.cshtml", userLogin);
         }
         
         return RedirectToAction("Index", "Home");
@@ -49,19 +50,19 @@ public class AuthenticateController : Controller
     
     [HttpPost]
     [Route("registeruser")]
-    public async Task<IActionResult> RegisterUser(UserRegister user)
+    public async Task<IActionResult> RegisterUser(UserRegister userRegister)
     {
         if (!ModelState.IsValid)
         {
-            return View("~/Views/Authenticate/RegisterView.cshtml", user);
+            return View("~/Views/Authenticate/RegisterView.cshtml", userRegister);
         }
 
-        var result = await _authenticationService.RegisterUser(user);
+        var result = await _authenticationService.RegisterUser(userRegister);
         
         if (!result.IsSuccess)
         {
-            user.ErrorMessage = result.errors;
-            return View("~/Views/Authenticate/RegisterView.cshtml", user);
+            userRegister.ErrorMessage = result.errors;
+            return View("~/Views/Authenticate/RegisterView.cshtml", userRegister);
         }
         
         return RedirectToAction("LoginView");

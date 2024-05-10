@@ -5,6 +5,13 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+@if (Model != null && !string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <script>
+        alert("@Model.ErrorMessage");
+    </script>
+}
+
 <div class="m-10">Hello</div>
 <div class="flex mx-16 my-10">
     <div class="flex-1 border-[1px] border-black rounded-l-lg">

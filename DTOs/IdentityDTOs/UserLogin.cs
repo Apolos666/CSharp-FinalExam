@@ -17,4 +17,6 @@ public class UserLogin
 
     [DefaultValue(false)]
     public bool IsRememberMe { get; set; }
+
+    public string? ErrorMessage { get; set; }
 }

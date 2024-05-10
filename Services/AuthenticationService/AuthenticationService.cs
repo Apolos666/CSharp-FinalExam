@@ -104,11 +104,11 @@ public class AuthenticationService : IAuthenticationService
         return tokenHandler.WriteToken(token);
     }
 
-    public void WriteAccessToken(string accessToken)
+    public void WriteAccessToken(string accessToken, bool isRememberMe)
     {
         _httpContext.HttpContext?.Response.Cookies.Append(TypeSafe.CookiesName.Token, accessToken, new CookieOptions
         {
-            Expires = DateTime.Now.AddDays(60),
+            Expires = isRememberMe ? DateTime.Now.AddDays(60) : (DateTime?)null,
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.Strict,

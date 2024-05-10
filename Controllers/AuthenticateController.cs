@@ -49,7 +49,7 @@ public class AuthenticateController : Controller
             return View("~/Views/Authenticate/LoginView.cshtml", userLogin);
         }
         
-        await GenerateAndWriteToken(result.User);
+        await GenerateAndWriteToken(result.User, userLogin.IsRememberMe);
         
         return RedirectToAction("Index", "Home");
     }
@@ -74,9 +74,9 @@ public class AuthenticateController : Controller
         return RedirectToAction("LoginView");
     }
 
-    private async Task GenerateAndWriteToken(ApplicationIdentityUser user)
+    private async Task GenerateAndWriteToken(ApplicationIdentityUser user, bool isRememberMe)
     {
         var accessToken = await _authenticationService.GenerateToken(user, _jwtConfig);
-        _authenticationService.WriteAccessToken(accessToken);
+        _authenticationService.WriteAccessToken(accessToken, isRememberMe);
     }
 }

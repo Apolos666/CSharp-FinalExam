@@ -10,5 +10,5 @@ public interface IAuthenticationService
     Task<(bool IsSuccess, ApplicationIdentityUser? User)> Login(UserLogin credentials);
     Task<(bool IsSuccess, ApplicationIdentityUser? User, IEnumerable<string>? errors)> RegisterUser(UserRegister user);
     Task<string> GenerateToken(ApplicationIdentityUser user, JwtConfiguration jwtConfig);
-    void WriteAccessToken(string accessToken);
+    void WriteAccessToken(string accessToken, bool isRememberMe);
 }

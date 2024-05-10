@@ -1,4 +1,6 @@
 ﻿using CSharp_FinalExam.DTOs.IdentityDTOs;
+using CSharp_FinalExam.Models.Authentication;
+using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Services.AuthenticationService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,12 @@ namespace CSharp_FinalExam.Controllers;
 public class AuthenticateController : Controller
 {
     private readonly IAuthenticationService _authenticationService;
+    private readonly JwtConfiguration _jwtConfig;
 
-    public AuthenticateController(IAuthenticationService authenticationService)
+    public AuthenticateController(IAuthenticationService authenticationService, JwtConfiguration jwtConfig)
     {
         _authenticationService = authenticationService;
+        _jwtConfig = jwtConfig;
     }
     
     [Route("login-view")]
@@ -30,7 +34,7 @@ public class AuthenticateController : Controller
     
     [HttpPost]
     [Route("loginuser")]
-    public async Task<IActionResult> LoginUser(UserLogin userLogin)
+    public async Task<IActionResult> LoginUser([FromForm] UserLogin userLogin)
     {
         if (!ModelState.IsValid)
         {
@@ -45,12 +49,14 @@ public class AuthenticateController : Controller
             return View("~/Views/Authenticate/LoginView.cshtml", userLogin);
         }
         
+        await GenerateAndWriteToken(result.User);
+        
         return RedirectToAction("Index", "Home");
     }
     
     [HttpPost]
     [Route("registeruser")]
-    public async Task<IActionResult> RegisterUser(UserRegister userRegister)
+    public async Task<IActionResult> RegisterUser([FromForm] UserRegister userRegister)
     {
         if (!ModelState.IsValid)
         {
@@ -66,5 +72,11 @@ public class AuthenticateController : Controller
         }
         
         return RedirectToAction("LoginView");
+    }
+
+    private async Task GenerateAndWriteToken(ApplicationIdentityUser user)
+    {
+        var accessToken = await _authenticationService.GenerateToken(user, _jwtConfig);
+        _authenticationService.WriteAccessToken(accessToken);
     }
 }

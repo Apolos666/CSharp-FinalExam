@@ -1,8 +1,13 @@
-﻿using CSharp_FinalExam.Data;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using CSharp_FinalExam.Data;
 using CSharp_FinalExam.DTOs.IdentityDTOs;
+using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Utilities.TypeSafe;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CSharp_FinalExam.Services.AuthenticationService;
 
@@ -12,19 +17,21 @@ public class AuthenticationService : IAuthenticationService
     private readonly UserManager<ApplicationIdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationIdentityUser> _signInManager;
-
+    private readonly IHttpContextAccessor _httpContext;
 
     public AuthenticationService(
         ApplicationDbContext context,
         UserManager<ApplicationIdentityUser> userManager,
         RoleManager<IdentityRole> roleManager,
-        SignInManager<ApplicationIdentityUser> signInManager
+        SignInManager<ApplicationIdentityUser> signInManager,
+        IHttpContextAccessor httpContext
         )
     {
         _context = context;
         _userManager = userManager;
         _roleManager = roleManager;
         _signInManager = signInManager;
+        _httpContext = httpContext;
     }
 
     public async Task<bool> AddUserRole(ApplicationIdentityUser user, string role)
@@ -73,5 +80,39 @@ public class AuthenticationService : IAuthenticationService
         }
         
         return (false, null, errors);
+    }
+
+    public async Task<string> GenerateToken(ApplicationIdentityUser user, JwtConfiguration jwtConfig)
+    {
+        var claims = await AuthenticationHelper.GetClaims(user, _userManager);
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret));
+
+        var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+
+        var securityTokenDescriptor = new SecurityTokenDescriptor()
+        {
+            Subject = new ClaimsIdentity(claims),
+            Issuer = jwtConfig.Issuer,
+            Audience = jwtConfig.Audience,
+            Expires = DateTime.Now.AddDays(jwtConfig.ExpiresDay),
+            SigningCredentials = signingCred
+        };
+        
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(securityTokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+
+    public void WriteAccessToken(string accessToken)
+    {
+        _httpContext.HttpContext?.Response.Cookies.Append(TypeSafe.CookiesName.Token, accessToken, new CookieOptions
+        {
+            Expires = DateTime.Now.AddDays(60),
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            IsEssential = true,
+        });
     }
 }

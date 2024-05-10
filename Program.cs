@@ -1,4 +1,5 @@
 using CSharp_FinalExam.Configurations;
+using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Services.ServicesRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,12 @@ builder.Configuration.Bind("DatabaseConfig", dbConfig);
 builder.Services.AddApplicationRepositories(dbConfig);
 builder.Services.AddApplicationServices();
 builder.Services.AddApplicationIdentity();
+
+var jwtConfig = new JwtConfiguration();
+builder.Configuration.Bind("JwtConfig", jwtConfig);
+builder.Services.AddSingleton(jwtConfig);
+builder.Services.AddApplicationJwtAuthentication(jwtConfig);
+
 builder.Services.AddMvc();
 
 var app = builder.Build();

@@ -8,4 +8,9 @@ public class TypeSafe
         public const string User = "User";
         public const string Contributor = "Contributor";
     }
+
+    public static class CookiesName
+    {
+        public static string Token = "ACCESS-TOKEN";
+    }
 }

@@ -4,6 +4,7 @@ using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Services.ServicesRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
+var clientSecret = builder.AddKeyVault();
 
 var dbConfig = new DatabaseConfig();
 builder.Configuration.Bind("DatabaseConfig", dbConfig);

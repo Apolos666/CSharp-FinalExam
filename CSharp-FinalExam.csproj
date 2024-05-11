@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\CustomAttribute\" />
+    <Folder Include="wwwroot\images\error\" />
     <Folder Include="wwwroot\images\login\" />
   </ItemGroup>
 

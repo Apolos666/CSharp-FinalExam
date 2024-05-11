@@ -9,10 +9,12 @@ public static class SeedingDataService
     {
         // using var scope = app.Services.CreateScope();
         // var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        //
+        
         // var adminRole = new IdentityRole(TypeSafe.Roles.Admin);
-        //     
+        // var userRole = new IdentityRole(TypeSafe.Roles.User);
+            
         // await roleManager.CreateAsync(adminRole);
+        // await roleManager.CreateAsync(userRole);
         
         return app;
     }

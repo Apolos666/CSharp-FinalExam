@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+    Layout = null;
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div>
+    <div>
+        <img class="mx-auto h-[60%]" src="~/images/error/OIG1.jpg" alt="">
+    </div>
+    <div class="text-center text-amber-300 font-bold text-3xl mt-4">Access Forbidden</div>
+    <div class="my-2 text-center">Sorry, you don't have permission to access the requested page.</div>
+    <div class="flex justify-center mt-4">
+        <button onclick="redirectToLogin()" class="py-4 px-6 outline-none bg-amber-300 text-white border-2 border-amber-400 rounded-lg">Back to login</button>
+    </div>
+</div>
+
+<script>
+    const redirectToLogin = () => {
+        window.location.href = "/authenticate/login-view";
+    }
+</script>

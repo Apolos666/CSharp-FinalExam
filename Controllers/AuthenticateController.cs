@@ -3,6 +3,7 @@ using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Services.AuthenticationService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharp_FinalExam.Controllers;
@@ -13,11 +14,13 @@ public class AuthenticateController : Controller
 {
     private readonly IAuthenticationService _authenticationService;
     private readonly JwtConfiguration _jwtConfig;
+    private readonly SignInManager<ApplicationIdentityUser> _signInManager;
 
-    public AuthenticateController(IAuthenticationService authenticationService, JwtConfiguration jwtConfig)
+    public AuthenticateController(IAuthenticationService authenticationService, JwtConfiguration jwtConfig, SignInManager<ApplicationIdentityUser> signInManager)
     {
         _authenticationService = authenticationService;
         _jwtConfig = jwtConfig;
+        _signInManager = signInManager;
     }
     
     [Route("login-view")]
@@ -72,6 +75,22 @@ public class AuthenticateController : Controller
         }
         
         return RedirectToAction("LoginView");
+    }
+    
+    [HttpPost]
+    public IActionResult ExternalLogin(string provider, string returnUrl)
+    {
+        var redirectUrl = Url.Action("ExternalLoginCallback", "Authenticate", new { ReturnUrl = returnUrl});
+        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return new ChallengeResult(provider, properties);
+    }
+    
+    public async Task<IActionResult> ExternalLoginCallback([FromQuery] string? returnUrl, [FromQuery] string? remoteError)
+    {
+        var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+        
+        returnUrl ??= Url.Content("~/");
+        return Redirect(returnUrl);
     }
 
     private async Task GenerateAndWriteToken(ApplicationIdentityUser user, bool isRememberMe)

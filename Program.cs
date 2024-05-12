@@ -16,7 +16,7 @@ builder.Services.AddApplicationIdentity();
 var jwtConfig = new JwtConfiguration();
 builder.Configuration.Bind("JwtConfig", jwtConfig);
 builder.Services.AddSingleton(jwtConfig);
-builder.Services.AddApplicationJwtAuthentication(jwtConfig);
+builder.Services.AddApplicationJwtAuthentication(jwtConfig, clientSecret);
 builder.Services.AddApplicationAuthorization();
 
 builder.Services.AddMvc();

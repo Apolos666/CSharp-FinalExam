@@ -59,6 +59,43 @@ public class AuthenticationService : IAuthenticationService
         return (false, null);
     }
 
+    public async Task<(bool, ApplicationIdentityUser?)> ExternalLogin(ExternalLoginInfo externalLoginInfo)
+    {
+        var signResult = await _signInManager.ExternalLoginSignInAsync(
+            externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey, true, true);
+        
+        if (signResult.Succeeded)
+        {
+            var user = await _userManager.FindByLoginAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey);
+            return (true, user);
+        }
+        
+        var email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email);
+        
+        if (email is not null)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+        
+            if (user is null)
+            {
+                user = new ApplicationIdentityUser()
+                {
+                    UserName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Name).Replace(" ", ""),
+                    Email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                };
+        
+                var createUser = await _userManager.CreateAsync(user);
+                var addRole = await AddUserRole(user, TypeSafe.Roles.Admin);
+            }
+        
+            await _userManager.AddLoginAsync(user, externalLoginInfo);
+            await _signInManager.SignInAsync(user, true);
+            return (true, user);
+        }
+        
+        return (false, null);
+    }
+
     public async Task<(bool IsSuccess, ApplicationIdentityUser? User, IEnumerable<string>? errors)> RegisterUser(UserRegister user)
     {
         var identityUser = new ApplicationIdentityUser()

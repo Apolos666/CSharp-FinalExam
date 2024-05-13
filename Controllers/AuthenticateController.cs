@@ -88,11 +88,16 @@ public class AuthenticateController : Controller
     public async Task<IActionResult> ExternalLoginCallback([FromQuery] string? returnUrl, [FromQuery] string? remoteError)
     {
         var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+
+        var result = await _authenticationService.ExternalLogin(externalLoginInfo);
+        
+        await GenerateAndWriteToken(result.User, true);
         
         returnUrl ??= Url.Content("~/");
-        return Redirect(returnUrl);
+        // Tạm thời đưa về RedirectView để Token kịp lưu rồi mới chuyển tới returnUrl
+        return View("RedirectView", new RedirectViewModel { returnUrl = returnUrl });
     }
-
+    
     private async Task GenerateAndWriteToken(ApplicationIdentityUser user, bool isRememberMe)
     {
         var accessToken = await _authenticationService.GenerateToken(user, _jwtConfig);

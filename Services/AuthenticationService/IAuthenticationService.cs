@@ -10,6 +10,7 @@ public interface IAuthenticationService
     Task<bool> AddUserRole(ApplicationIdentityUser user, string role);
     Task<UserView?> GetMe();
     Task<(bool IsSuccess, ApplicationIdentityUser? User)> Login(UserLogin credentials);
+    Task Logout();
     Task<(bool, ApplicationIdentityUser? User)> ExternalLogin(ExternalLoginInfo externalLoginInfo);
     Task<(bool IsSuccess, ApplicationIdentityUser? User, IEnumerable<string>? errors)> RegisterUser(UserRegister user);
     Task<string> GenerateToken(ApplicationIdentityUser user, JwtConfiguration jwtConfig);

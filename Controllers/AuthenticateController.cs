@@ -88,6 +88,14 @@ public class AuthenticateController : Controller
     }
     
     [HttpPost]
+    [Route("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _authenticationService.Logout();
+        return RedirectToAction("LoginView");
+    }
+    
+    [HttpPost]
     public IActionResult ExternalLogin(string provider, string returnUrl)
     {
         var redirectUrl = Url.Action("ExternalLoginCallback", "Authenticate", new { ReturnUrl = returnUrl});

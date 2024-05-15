@@ -72,6 +72,12 @@ public class AuthenticationService : IAuthenticationService
         return (false, null);
     }
 
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();
+        _httpContext.HttpContext?.Response.Cookies.Delete(TypeSafe.CookiesName.Token);
+    }
+
     public async Task<(bool, ApplicationIdentityUser?)> ExternalLogin(ExternalLoginInfo externalLoginInfo)
     {
         var signResult = await _signInManager.ExternalLoginSignInAsync(

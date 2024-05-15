@@ -14,7 +14,16 @@
     <div class="mr-16 relative">
         <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar"
                 class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" type="button">
-            <img class="w-14 h-14 rounded-full " src="@Model.ProfileImageUrl" alt="user photo">
+            @{
+                if (@Model.ProfileImageUrl != null)
+                {
+                    <img class="w-14 h-14 rounded-full " src="@Model.ProfileImageUrl" alt="user photo">
+                }
+                else
+                {
+                    <img class="w-14 h-14 rounded-full " src="~/images/avatar.IapG.jpg" alt="user photo">
+                }
+            }
         </button>
 
         <!-- Dropdown menu -->
@@ -23,9 +32,9 @@
                 <div>@Model.UserName</div>
                 <div class="font-medium truncate">@Model.Email</div>
             </div>
-            <form>
+            <form asp-controller="Authenticate" asp-action="Logout" method="post">
                 <div class="py-2">
-                    <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-100 font-bold">Sign out</a>
+                    <button type="submit" class="block w-full px-4 py-2 text-start text-sm hover:!text-[#432371] hover:bg-gray-100 font-bold text-white">Sign out</button>
                 </div>
             </form>
         </div>

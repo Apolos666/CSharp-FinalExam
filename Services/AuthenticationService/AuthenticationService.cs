@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 using CSharp_FinalExam.Data;
 using CSharp_FinalExam.DTOs.IdentityDTOs;
 using CSharp_FinalExam.Models.Authentication;
@@ -18,13 +19,15 @@ public class AuthenticationService : IAuthenticationService
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationIdentityUser> _signInManager;
     private readonly IHttpContextAccessor _httpContext;
+    private readonly IMapper _mapper;
 
     public AuthenticationService(
         ApplicationDbContext context,
         UserManager<ApplicationIdentityUser> userManager,
         RoleManager<IdentityRole> roleManager,
         SignInManager<ApplicationIdentityUser> signInManager,
-        IHttpContextAccessor httpContext
+        IHttpContextAccessor httpContext,
+        IMapper mapper
         )
     {
         _context = context;
@@ -32,6 +35,7 @@ public class AuthenticationService : IAuthenticationService
         _roleManager = roleManager;
         _signInManager = signInManager;
         _httpContext = httpContext;
+        _mapper = mapper;
     }
 
     public async Task<bool> AddUserRole(ApplicationIdentityUser user, string role)
@@ -41,6 +45,15 @@ public class AuthenticationService : IAuthenticationService
         return addToRoleResult.Succeeded;
     }
 
+    public async Task<UserView?> GetMe()
+    {
+        var userName = _httpContext.HttpContext?.User.FindFirstValue(ClaimTypes.Name);
+        
+        var user = await _userManager.FindByNameAsync(userName);
+        var userView = _mapper.Map<UserView>(user);
+        return userView;
+    }
+    
     public async Task<(bool IsSuccess, ApplicationIdentityUser? User)> Login(UserLogin credentials)
     {
         var user = await _userManager.FindByEmailAsync(credentials.UserOrEmail) ??
@@ -82,6 +95,7 @@ public class AuthenticationService : IAuthenticationService
                 {
                     UserName = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Name).Replace(" ", ""),
                     Email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                    ProfileImageUrl = externalLoginInfo.Principal.FindFirstValue("user_image")
                 };
         
                 var createUser = await _userManager.CreateAsync(user);

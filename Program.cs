@@ -11,6 +11,7 @@ builder.Configuration.Bind("DatabaseConfig", dbConfig);
 
 builder.Services.AddApplicationRepositories(dbConfig);
 builder.Services.AddApplicationServices();
+builder.Services.AddThirdPartyServices();
 builder.Services.AddApplicationIdentity();
 
 var jwtConfig = new JwtConfiguration();

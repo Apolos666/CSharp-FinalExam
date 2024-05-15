@@ -1,0 +1,41 @@
+﻿@model CSharp_FinalExam.DTOs.IdentityDTOs.UserView
+
+@{
+    Layout = null;
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="flex items-center justify-content-between bg-gradient-to-r from-[#432371] to-[#faae7b]">
+    <div class="ml-16 my-2">
+        <img class="w-16 h-16 rounded-full" src="~/images/logo.png" alt="">
+    </div>
+    
+    <div class="mr-16 relative">
+        <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar"
+                class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" type="button">
+            <img class="w-14 h-14 rounded-full " src="@Model.ProfileImageUrl" alt="user photo">
+        </button>
+
+        <!-- Dropdown menu -->
+        <div id="dropdownAvatar" class="z-10 right-0 absolute mt-2 hidden bg-[#9d4edd] divide-y divide-gray-100 rounded-lg shadow w-44">
+            <div class="px-4 py-3 text-sm text-white font-bold">
+                <div>@Model.UserName</div>
+                <div class="font-medium truncate">@Model.Email</div>
+            </div>
+            <form>
+                <div class="py-2">
+                    <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-100 font-bold">Sign out</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('dropdownUserAvatarButton').addEventListener('click', function() {
+        const dropdownId = this.getAttribute('data-dropdown-toggle');
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('hidden');
+    });
+</script>

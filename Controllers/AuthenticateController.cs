@@ -2,6 +2,7 @@
 using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Services.AuthenticationService;
+using CSharp_FinalExam.Utilities.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,15 @@ public class AuthenticateController : Controller
     public IActionResult RegisterView()
     {
         return View();
+    }
+    
+    [HttpGet]
+    [Route("get-me")]
+    [Authorize(Roles = TypeSafe.Roles.Admin)]
+    public async Task<IActionResult> GetMe()
+    {
+        var user = await _authenticationService.GetMe();
+        return Ok(user);
     }
     
     [HttpPost]

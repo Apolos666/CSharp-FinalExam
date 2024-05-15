@@ -68,9 +68,8 @@ public static class SecurityService
                     },
                     OnCreatingTicket = context =>
                     {
-                        var accessToken = context.AccessToken;
-                        var identity = (ClaimsIdentity)context.Principal.Identity;
-                        identity.AddClaim(new Claim("access_token", accessToken));
+                        context.Identity.AddClaim(new Claim("user_image", context.User.GetProperty("picture").ToString()));
+                        context.Identity.AddClaim(new Claim("access_token", context.AccessToken));
                         return Task.CompletedTask;
                     }
                 };

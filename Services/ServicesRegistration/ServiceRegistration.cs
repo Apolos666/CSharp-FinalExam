@@ -26,4 +26,11 @@ public static class ServiceRegistration
 
         return service;
     }
+    
+    public static IServiceCollection AddThirdPartyServices(this IServiceCollection service)
+    {
+        service.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        
+        return service;
+    }
 }

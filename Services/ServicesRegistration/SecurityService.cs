@@ -61,6 +61,11 @@ public static class SecurityService
 
                 options.Events = new OAuthEvents()
                 {
+                    OnRedirectToAuthorizationEndpoint = context =>
+                    {
+                        context.Response.Redirect(context.RedirectUri + "&prompt=select_account");
+                        return Task.CompletedTask;
+                    },
                     OnCreatingTicket = context =>
                     {
                         var accessToken = context.AccessToken;

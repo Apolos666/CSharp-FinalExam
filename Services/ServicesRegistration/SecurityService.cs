@@ -1,10 +1,13 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
+using Azure.Security.KeyVault.Secrets;
 using CSharp_FinalExam.Data;
 using CSharp_FinalExam.Infrastructure.Policies.Admin;
 using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Utilities.TypeSafe;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -42,12 +45,34 @@ public static class SecurityService
     }
 
     public static IServiceCollection AddApplicationJwtAuthentication(this IServiceCollection service,
-        JwtConfiguration jwtConfig)
+        JwtConfiguration jwtConfig, SecretClient secretClient)
     {
         service.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = secretClient.GetSecret("GoogleClientId").Value.Value;
+                options.ClientSecret = secretClient.GetSecret("GoogleClientSecret").Value.Value;
+                options.SaveTokens = true;
+                options.Scope.Add("https://www.googleapis.com/auth/userinfo.profile");
+
+                options.Events = new OAuthEvents()
+                {
+                    OnRedirectToAuthorizationEndpoint = context =>
+                    {
+                        context.Response.Redirect(context.RedirectUri + "&prompt=select_account");
+                        return Task.CompletedTask;
+                    },
+                    OnCreatingTicket = context =>
+                    {
+                        context.Identity.AddClaim(new Claim("user_image", context.User.GetProperty("picture").ToString()));
+                        context.Identity.AddClaim(new Claim("access_token", context.AccessToken));
+                        return Task.CompletedTask;
+                    }
+                };
             })
             .AddJwtBearer(options =>
             {

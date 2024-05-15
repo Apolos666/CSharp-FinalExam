@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    var returnUrl = Url.Action("Index", "Home");
 }
 @model CSharp_FinalExam.DTOs.IdentityDTOs.UserLogin
 
@@ -34,12 +35,17 @@
                 </div>
                 <div class="my-4 mx-2 flex items-center justify-between">
                     <div class="flex items-center">
-                        <input asp-for="IsRememberMe" type="checkbox" class="outline-none border-2 border-black p-4">
+                        <input asp-for="IsRememberMe" type="checkbox" lass="outline-none border-2 border-black p-4">
                         <div class="ml-2">Remember me</div>
                     </div>
                     <a href="" class="">Forgot password?</a>
                 </div>
                 <button class="my-8 block w-full p-4 rounded-lg text-white bg-black">Login</button>
+            </form>
+            <form asp-controller="Authenticate" asp-action="ExternalLogin" asp-route-returnUrl="@returnUrl">
+                <button type="submit" name="provider" value="Google" class="my-8 block w-full p-4 rounded-lg text-white bg-black">
+                    Login with Google
+                </button>
             </form>
             <div class="text-center my-8">
                 Don't have an Account? <a asp-controller="Authenticate" asp-action="RegisterView" class="font-bold">Register</a>

@@ -2,7 +2,9 @@
 using CSharp_FinalExam.Models.Authentication;
 using CSharp_FinalExam.Models.Identity;
 using CSharp_FinalExam.Services.AuthenticationService;
+using CSharp_FinalExam.Utilities.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharp_FinalExam.Controllers;
@@ -13,11 +15,13 @@ public class AuthenticateController : Controller
 {
     private readonly IAuthenticationService _authenticationService;
     private readonly JwtConfiguration _jwtConfig;
+    private readonly SignInManager<ApplicationIdentityUser> _signInManager;
 
-    public AuthenticateController(IAuthenticationService authenticationService, JwtConfiguration jwtConfig)
+    public AuthenticateController(IAuthenticationService authenticationService, JwtConfiguration jwtConfig, SignInManager<ApplicationIdentityUser> signInManager)
     {
         _authenticationService = authenticationService;
         _jwtConfig = jwtConfig;
+        _signInManager = signInManager;
     }
     
     [Route("login-view")]
@@ -30,6 +34,15 @@ public class AuthenticateController : Controller
     public IActionResult RegisterView()
     {
         return View();
+    }
+    
+    [HttpGet]
+    [Route("get-me")]
+    [Authorize(Roles = TypeSafe.Roles.Admin)]
+    public async Task<IActionResult> GetMe()
+    {
+        var user = await _authenticationService.GetMe();
+        return Ok(user);
     }
     
     [HttpPost]
@@ -73,7 +86,36 @@ public class AuthenticateController : Controller
         
         return RedirectToAction("LoginView");
     }
+    
+    [HttpPost]
+    [Route("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _authenticationService.Logout();
+        return RedirectToAction("LoginView");
+    }
+    
+    [HttpPost]
+    public IActionResult ExternalLogin(string provider, string returnUrl)
+    {
+        var redirectUrl = Url.Action("ExternalLoginCallback", "Authenticate", new { ReturnUrl = returnUrl});
+        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return new ChallengeResult(provider, properties);
+    }
+    
+    public async Task<IActionResult> ExternalLoginCallback([FromQuery] string? returnUrl, [FromQuery] string? remoteError)
+    {
+        var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
 
+        var result = await _authenticationService.ExternalLogin(externalLoginInfo);
+        
+        await GenerateAndWriteToken(result.User, true);
+        
+        returnUrl ??= Url.Content("~/");
+        // Tạm thời đưa về RedirectView để Token kịp lưu rồi mới chuyển tới returnUrl
+        return View("RedirectView", new RedirectViewModel { returnUrl = returnUrl });
+    }
+    
     private async Task GenerateAndWriteToken(ApplicationIdentityUser user, bool isRememberMe)
     {
         var accessToken = await _authenticationService.GenerateToken(user, _jwtConfig);

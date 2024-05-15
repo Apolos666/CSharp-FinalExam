@@ -1,0 +1,10 @@
+﻿@model CSharp_FinalExam.Models.Authentication.RedirectViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Redirecting...";
+}
+
+<script>
+    window.location.href = '@Model.returnUrl';
+</script>

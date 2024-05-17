@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
+    @await Component.InvokeAsync("LeftNavbar")
     @await Component.InvokeAsync("HeaderNavbar")
     @RenderBody()
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

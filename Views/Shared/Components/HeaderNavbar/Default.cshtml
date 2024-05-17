@@ -4,11 +4,18 @@
     Layout = null;
 }
 
+<style>
+    .width-custom {
+        width: calc(100% - 144px);
+    }
+</style>
+
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="flex items-center justify-content-between bg-gradient-to-r from-[#432371] to-[#faae7b]">
+<div class="width-custom fixed top-0 py-4 ml-[144px] flex items-center justify-content-between border-b-2 border-b-[#b8c0ff] shadow-sm">
     <div class="ml-16 my-2">
-        <img class="w-16 h-16 rounded-full" src="~/images/logo.png" alt="">
+        @* <img class="w-16 h-16 rounded-full" src="~/images/logo.png" alt=""> *@
+        <div class="font-bold">Sinh Vien</div>
     </div>
     
     <div class="mr-16 relative">

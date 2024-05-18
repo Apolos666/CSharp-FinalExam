@@ -93,19 +93,30 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model.Items)
-        {
-            <tr>
-                @foreach (var property in Model.Properties)
+        @{  
+            if (Model.Items is null || !Model.Items.Any())
+            {
+                <tr>
+                    <td colspan="@Model.Properties.Count + 1" class="text-center">Không có dữ liệu</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
                 {
-                    <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>
+                    <tr>
+                        @foreach (var property in Model.Properties)
+                        {
+                            <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>
+                        }
+                        <td class="border px-4 py-2 flex items-center justify-center gap-2">
+                            <a asp-controller="@Model.Controller" asp-action="@Model.UpdateAction" asp-route-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</a>
+                            <button data-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="deleteChoice block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</button>
+                            <a asp-controller="@Model.Controller" asp-action="@Model.DetailAction" asp-route-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="block bg-[#80ed99] py-2 px-2 text-nowrap text-white rounded-lg">Chi tiết</a>
+                        </td>
+                    </tr>
                 }
-                <td class="border px-4 py-2 flex items-center justify-center gap-2">
-                    <a asp-controller="@Model.Controller" asp-action="@Model.UpdateAction" asp-route-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</a>
-                    <button data-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="deleteChoice block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</button>
-                    <a asp-controller="@Model.Controller" asp-action="@Model.DetailAction" asp-route-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="block bg-[#80ed99] py-2 px-2 text-nowrap text-white rounded-lg">Chi tiết</a>
-                </td>
-            </tr>
+            }
         }
         </tbody>
     </table>

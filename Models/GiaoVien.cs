@@ -19,5 +19,5 @@ public class GiaoVien
     [Required] public string DiaChi { get; set; }
     [Required] public GioiTinhEnum GioiTinh { get; set; }
     [Required] [ForeignKey("Khoa")] public int KhoaId { get; set; }
-    public Khoa Khoa { get; set; }
+    public Khoa? Khoa { get; set; }
 }

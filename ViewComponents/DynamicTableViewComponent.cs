@@ -10,6 +10,7 @@ public class DynamicTableViewComponent : ViewComponent
         List<string> propertiesViewComponent,
         string updateAction,
         string deleteAction,
+        string detailAction,
         string controller)
     {
         var viewModel = new DynamicTableViewModel
@@ -18,6 +19,7 @@ public class DynamicTableViewComponent : ViewComponent
             Properties = propertiesViewComponent,
             UpdateAction = updateAction,
             DeleteAction = deleteAction,
+            DetailAction = detailAction,
             Controller = controller
         };
         

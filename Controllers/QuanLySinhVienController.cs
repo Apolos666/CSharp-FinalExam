@@ -67,4 +67,11 @@ public class QuanLySinhVienController : Controller
 
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> DetailSinhVien([FromRoute] int id)
+    {
+        var detailSinhVien = await _sinhVienRepository.GetSinhVienByIdAsync(id);
+        return View("~/Views/QuanLySinhVien/DetailSinhVien.cshtml", detailSinhVien);
+    }
 }

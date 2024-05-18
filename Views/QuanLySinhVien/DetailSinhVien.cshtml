@@ -1,0 +1,40 @@
+﻿@model SinhVien
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixed top-0 ml-[174px] mt-[140px] w-full">
+    <div class="">
+        <h1>Thông tin sinh viên</h1>
+        <p>
+            <strong>Mã sinh viên:</strong> @Model.MaSinhVien
+        </p>
+        <p>
+            <strong>Họ tên:</strong> @Model.HoTen
+        </p>
+        <p>
+            <strong>Ngày sinh:</strong> @Model.NgaySinh.ToString("dd/MM/yyyy")
+        </p>
+        <p>
+            <strong>Số điện thoại:</strong> @Model.SoDienThoai
+        </p>
+        <p>
+            <strong>Email:</strong> @Model.Email
+        </p>
+        <p>
+            <strong>Địa chỉ:</strong> @Model.DiaChi
+        </p>
+        <p>
+            <strong>Giới tính:</strong> @Model.GioiTinh
+        </p>
+        <p>
+            <strong>GPA:</strong> @Model.GPA
+        </p>
+        <p>
+            <strong>Lớp sinh hoạt:</strong> @Model.LopSinhHoatId
+        </p>
+    </div>
+    <a asp-controller="QuanLySinhVien" asp-action="Index" class="block w-[8%] text-nowrap mt-2 py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Trở lại</a>
+
+</div>

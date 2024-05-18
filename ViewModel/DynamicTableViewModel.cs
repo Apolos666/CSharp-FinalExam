@@ -6,5 +6,6 @@ public class DynamicTableViewModel
     public List<string> Properties { get; set; }
     public string UpdateAction { get; set; }
     public string DeleteAction { get; set; }
+    public string DetailAction { get; set; }
     public string Controller { get; set; }
 }

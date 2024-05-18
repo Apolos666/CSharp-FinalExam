@@ -53,8 +53,8 @@
                     <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>
                 }
                 <td class="border px-4 py-2 flex items-center justify-center gap-2">
-                    <button class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</button>
-                    <button class="block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</button>
+                    <a asp-controller="@Model.Controller" asp-action="@Model.UpdateAction" asp-route-id="@item.GetType().GetProperty("Id").GetValue(item, null)" class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</a>
+                    <a asp-controller="@Model.Controller" asp-action="@Model.DeleteAction" asp-route-id="" class="block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</a>
                 </td>
             </tr>
         }

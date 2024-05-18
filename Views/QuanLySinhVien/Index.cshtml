@@ -26,7 +26,7 @@
             document.getElementById('addPopup').classList.add('block');
         });
 
-        document.getElementById('cancelButton').addEventListener('click', function(e) {
+        document.getElementById('cancelButtonAddPopup').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('addPopup').classList.remove('block');
             document.getElementById('addPopup').classList.add('hidden');
@@ -108,7 +108,7 @@
                 </div>
                 <div class="mt-4 flex justify-between">
                     <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
-                    <button id="cancelButton" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    <button id="cancelButtonAddPopup" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
                 </div>
             </form>
         </div>
@@ -135,7 +135,13 @@
             </div>
         </div>
     </div>
-    @await Component.InvokeAsync("DynamicTable", new { modelViewComponent = @Model.SinhViens, propertiesViewComponent = properties })
+    @await Component.InvokeAsync("DynamicTable", 
+    new { modelViewComponent = Model.SinhViens, 
+        propertiesViewComponent = properties, 
+        UpdateAction = "EditSinhVien", 
+        DeleteAction = "DeleteSinhVien", 
+        Controller = "QuanLySinhVien" }
+    )
     <div class="mt-4 mr-6 flex items-center justify-between">
         <div class="text-gray-400">Rows per page <p class="inline-block font-bold text-black">10</p> of 768 items</div>
         <div class="flex items-center gap-3 ">

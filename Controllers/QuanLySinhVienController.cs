@@ -1,10 +1,14 @@
 ﻿using CSharp_FinalExam.DTOs.SinhVien;
+using CSharp_FinalExam.Models;
 using CSharp_FinalExam.Repositories.SinhVien;
+using CSharp_FinalExam.Utilities.TypeSafe;
 using CSharp_FinalExam.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharp_FinalExam.Controllers;
 
+[Authorize(Roles = TypeSafe.Roles.Admin)]
 public class QuanLySinhVienController : Controller
 {
     private readonly ISinhVienRepository _sinhVienRepository;
@@ -42,6 +46,24 @@ public class QuanLySinhVienController : Controller
         }
         
         await _sinhVienRepository.CreateSinhVienAsync(createSinhVienDto);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditSinhVien([FromRoute] int id)
+    {
+        var sinhVien = await _sinhVienRepository.GetSinhVienByIdAsync(id);
+        return View("~/Views/QuanLySinhVien/UpdateSinhVien.cshtml", sinhVien);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> UpdateSinhVien([FromForm] SinhVien updateSinhVienDto, [FromRoute] int id)
+    {
+        if (!ModelState.IsValid)
+            return View("~/Views/QuanLySinhVien/UpdateSinhVien.cshtml", updateSinhVienDto);
+        
+        await _sinhVienRepository.UpdateSinhVienAsync(updateSinhVienDto, id);
 
         return RedirectToAction("Index");
     }

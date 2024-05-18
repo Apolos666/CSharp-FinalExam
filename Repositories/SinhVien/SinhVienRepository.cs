@@ -23,6 +23,13 @@ public class SinhVienRepository : ISinhVienRepository
         var sinhViens = await _dbContext.SinhViens.ToListAsync();
         return sinhViens;
     }
+    
+    public async Task<Models.SinhVien?> GetSinhVienByIdAsync(int id)
+    {
+        var sinhVien = await _dbContext.SinhViens.FindAsync(id);
+        
+        return sinhVien;
+    }
 
     public async Task<Models.SinhVien> CreateSinhVienAsync(CreateSinhVienDTO createSinhVienDto)
     {
@@ -30,5 +37,13 @@ public class SinhVienRepository : ISinhVienRepository
         var addResult = await _dbContext.SinhViens.AddAsync(sinhVien);
         await _dbContext.SaveChangesAsync();
         return addResult.Entity;
+    }
+
+    public async Task<Models.SinhVien> UpdateSinhVienAsync(Models.SinhVien updateSinhVien, int id)
+    {
+        var sinhVien = await GetSinhVienByIdAsync(id);
+        _mapper.Map(updateSinhVien, sinhVien);
+        await _dbContext.SaveChangesAsync();
+        return sinhVien;
     }
 }

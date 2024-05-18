@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SinhVien
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var sinhVienList = new List<CSharp_FinalExam.Models.SinhVien>
     {
@@ -16,6 +17,102 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+        border: 1px solid #555;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('addButton').addEventListener('click', function() {
+            document.getElementById('myModal').classList.remove('hidden');
+            document.getElementById('myModal').classList.add('block');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('cancelButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('myModal').classList.remove('block');
+            document.getElementById('myModal').classList.add('hidden');
+        });
+    });
+</script>
+
+<div id="myModal" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50 hidden">
+    <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg">
+        <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+            <form asp-action="" asp-controller="" method="post">
+                <div class="">
+                    <label asp-for="MaSinhVien" class="font-bold block"></label>
+                    <input asp-for="MaSinhVien" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                    <span asp-validation-for="MaSinhVien" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="HoTen" class="font-bold block"></label>
+                    <input asp-for="HoTen" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
+                    <span asp-validation-for="HoTen" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="NgaySinh" class="font-bold block"></label>
+                    <input asp-for="NgaySinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                    <span asp-validation-for="NgaySinh" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="SoDienThoai" class="font-bold block"></label>
+                    <input asp-for="SoDienThoai" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập số điện thoại">
+                    <span asp-validation-for="SoDienThoai" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="Email" class="font-bold block"></label>
+                    <input asp-for="Email" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập email">
+                    <span asp-validation-for="Email" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="DiaChi" class="font-bold block"></label>
+                    <input asp-for="DiaChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập địa chỉ">
+                    <span asp-validation-for="DiaChi" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="GioiTinh" class="font-bold block"></label>
+                    <input asp-for="GioiTinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập giới tính">
+                    <span asp-validation-for="GioiTinh" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="GPA" class="font-bold block"></label>
+                    <input asp-for="GPA" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập GPA">
+                    <span asp-validation-for="GPA" class=""></span>
+                </div>
+                <div class="mt-4">
+                    <label asp-for="LopSinhHoatId" class="font-bold block"></label>
+                    <input asp-for="LopSinhHoatId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp sinh hoạt">
+                    <span asp-validation-for="LopSinhHoatId" class=""></span>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                    <button id="cancelButton" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="ml-[174px] mt-[140px]">
     <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý sinh viên</div>
     <div class="mt-4 mr-6">
@@ -32,7 +129,7 @@
             </div>
             <div class="flex items-center relative">
                 <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
-                <button class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button> @* Todo: Suy nghĩ cách để làm popup cho cái này *@
+                <button id="addButton" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button> @* Todo: Suy nghĩ cách để làm popup cho cái này *@
             </div>
         </div>
     </div>

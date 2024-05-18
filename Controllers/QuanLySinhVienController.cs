@@ -74,4 +74,15 @@ public class QuanLySinhVienController : Controller
         var detailSinhVien = await _sinhVienRepository.GetSinhVienByIdAsync(id);
         return View("~/Views/QuanLySinhVien/DetailSinhVien.cshtml", detailSinhVien);
     }
+    
+    [HttpDelete]
+    public async Task<IActionResult> DeleteSinhVien([FromRoute] int id)
+    {
+        var deleteResult = await _sinhVienRepository.DeleteSinhVienAsync(id);
+        
+        if (!deleteResult)
+            return NotFound();
+
+        return Ok();
+    }
 }

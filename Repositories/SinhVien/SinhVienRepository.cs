@@ -46,4 +46,15 @@ public class SinhVienRepository : ISinhVienRepository
         await _dbContext.SaveChangesAsync();
         return sinhVien;
     }
+
+    public async Task<bool> DeleteSinhVienAsync(int id)
+    {
+        var sinhVien = await GetSinhVienByIdAsync(id);
+        if (sinhVien is null)
+            return false;
+        
+        _dbContext.SinhViens.Remove(sinhVien);
+        await _dbContext.SaveChangesAsync();
+        return true;
+    }
 }

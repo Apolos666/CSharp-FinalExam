@@ -8,4 +8,5 @@ public interface ISinhVienRepository
     Task<Models.SinhVien?> GetSinhVienByIdAsync(int id);
     Task<Models.SinhVien> CreateSinhVienAsync(CreateSinhVienDTO createSinhVienDto);
     Task<Models.SinhVien> UpdateSinhVienAsync(Models.SinhVien updateSinhVien, int id);
+    Task<bool> DeleteSinhVienAsync(int id);
 }

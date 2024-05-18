@@ -1,5 +1,6 @@
 ﻿using CSharp_FinalExam.Configurations;
 using CSharp_FinalExam.Data;
+using CSharp_FinalExam.Repositories.SinhVien;
 using CSharp_FinalExam.Services.AuthenticationService;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,8 @@ public static class ServiceRegistration
             options.EnableDetailedErrors(databaseConfig.DetailedErrors);
             options.EnableSensitiveDataLogging(databaseConfig.SensitiveDataLogging);
         });
+
+        service.AddScoped<ISinhVienRepository, SinhVienRepository>();
 
         return service;
     }

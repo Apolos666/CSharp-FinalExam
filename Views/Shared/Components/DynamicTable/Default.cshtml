@@ -54,7 +54,10 @@
                 {
                     <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>
                 }
-                <td class="border px-4 py-2"><a class="cursor-pointer"><img class="w-10 h-10 mx-auto" src="~/images/icons/cil--options.png" alt=""></a></td>
+                <td class="border px-4 py-2 flex items-center justify-center gap-2">
+                    <button class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</button>
+                    <button class="block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</button>
+                </td>
             </tr>
         }
         </tbody>

@@ -1,14 +1,12 @@
-﻿@model SinhVien
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CSharp_FinalExam.ViewModel.SinhVienViewModel
+
+<script src="https://cdn.tailwindcss.com"></script>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var sinhVienList = new List<CSharp_FinalExam.Models.SinhVien>
-    {
-        new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
-        new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
-        new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
-        new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
-    };
+    var hasErrors = ViewData["ModelState"] as ModelStateDictionary;
     
     var properties = typeof(CSharp_FinalExam.Models.SinhVien).GetProperties()
         .Where(prop => new[] { "Id", "MaSinhVien", "HoTen", "NgaySinh", "SoDienThoai", "Email", "DiaChi", "GioiTinh", "GPA", "LopSinhHoatId" }.Contains(prop.Name))
@@ -16,7 +14,25 @@
         .ToList();
 }
 
-<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if ('@hasErrors?.IsValid' === 'False') {
+            document.getElementById('addPopup').classList.remove('hidden');
+            document.getElementById('addPopup').classList.add('block');
+        }
+
+        document.getElementById('addButton').addEventListener('click', function() {
+            document.getElementById('addPopup').classList.remove('hidden');
+            document.getElementById('addPopup').classList.add('block');
+        });
+
+        document.getElementById('cancelButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('addPopup').classList.remove('block');
+            document.getElementById('addPopup').classList.add('hidden');
+        });
+    });
+</script>
 
 <style>
     .custom-scrollbar::-webkit-scrollbar {
@@ -39,71 +55,56 @@
     }
 </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('addButton').addEventListener('click', function() {
-            document.getElementById('myModal').classList.remove('hidden');
-            document.getElementById('myModal').classList.add('block');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('cancelButton').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('myModal').classList.remove('block');
-            document.getElementById('myModal').classList.add('hidden');
-        });
-    });
-</script>
-
-<div id="myModal" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50 hidden">
+<div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50 hidden">
     <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg">
         <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-            <form asp-action="" asp-controller="" method="post">
+            <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
                 <div class="">
-                    <label asp-for="MaSinhVien" class="font-bold block"></label>
-                    <input asp-for="MaSinhVien" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
-                    <span asp-validation-for="MaSinhVien" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.MaSinhVien" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="HoTen" class="font-bold block"></label>
-                    <input asp-for="HoTen" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
-                    <span asp-validation-for="HoTen" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.HoTen" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.HoTen" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.HoTen" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="NgaySinh" class="font-bold block"></label>
-                    <input asp-for="NgaySinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
-                    <span asp-validation-for="NgaySinh" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.NgaySinh" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="SoDienThoai" class="font-bold block"></label>
-                    <input asp-for="SoDienThoai" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập số điện thoại">
-                    <span asp-validation-for="SoDienThoai" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập số điện thoại">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.SoDienThoai" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="Email" class="font-bold block"></label>
-                    <input asp-for="Email" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập email">
-                    <span asp-validation-for="Email" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.DiaChi" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.DiaChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập địa chỉ">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.DiaChi" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="DiaChi" class="font-bold block"></label>
-                    <input asp-for="DiaChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập địa chỉ">
-                    <span asp-validation-for="DiaChi" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.Email" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.Email" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập email">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.Email" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="GioiTinh" class="font-bold block"></label>
-                    <input asp-for="GioiTinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập giới tính">
-                    <span asp-validation-for="GioiTinh" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.GioiTinh" class="font-bold block"></label>
+                    <select asp-for="@Model.CreateSinhVienDTO.GioiTinh" asp-items="Html.GetEnumSelectList<GioiTinhEnum>()" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
+                        <option selected="selected" value="">Chọn giới tính</option>
+                    </select>
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.GioiTinh" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="GPA" class="font-bold block"></label>
-                    <input asp-for="GPA" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập GPA">
-                    <span asp-validation-for="GPA" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.GPA" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.GPA" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập GPA">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.GPA" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4">
-                    <label asp-for="LopSinhHoatId" class="font-bold block"></label>
-                    <input asp-for="LopSinhHoatId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp sinh hoạt">
-                    <span asp-validation-for="LopSinhHoatId" class=""></span>
+                    <label asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="font-bold block"></label>
+                    <input asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp sinh hoạt">
+                    <span asp-validation-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="text-red-500 mt-2"></span>
                 </div>
                 <div class="mt-4 flex justify-between">
                     <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
@@ -134,7 +135,7 @@
             </div>
         </div>
     </div>
-    @await Component.InvokeAsync("DynamicTable", new { modelViewComponent = sinhVienList, propertiesViewComponent = properties })
+    @await Component.InvokeAsync("DynamicTable", new { modelViewComponent = @Model.SinhViens, propertiesViewComponent = properties })
     <div class="mt-4 mr-6 flex items-center justify-between">
         <div class="text-gray-400">Rows per page <p class="inline-block font-bold text-black">10</p> of 768 items</div>
         <div class="flex items-center gap-3 ">

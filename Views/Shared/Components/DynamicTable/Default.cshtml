@@ -37,7 +37,6 @@
     <table class="table-auto w-full mt-4">
         <thead>
         <tr>
-            <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap"><input type="checkbox"></th>
             @foreach (var property in Model.Properties)
             {
                 <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">@property</th>
@@ -49,7 +48,6 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <td class="border px-4 py-2"><input type="checkbox"></td>
                 @foreach (var property in Model.Properties)
                 {
                     <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>

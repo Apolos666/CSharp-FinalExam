@@ -1,16 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CSharp_FinalExam.DTOs.SinhVien;
+using CSharp_FinalExam.Repositories.SinhVien;
+using CSharp_FinalExam.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CSharp_FinalExam.Controllers;
 
 public class QuanLySinhVienController : Controller
 {
-    public QuanLySinhVienController()
+    private readonly ISinhVienRepository _sinhVienRepository;
+
+    public QuanLySinhVienController(ISinhVienRepository sinhVienRepository)
     {
-        
+        _sinhVienRepository = sinhVienRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var sinhViens = await _sinhVienRepository.GetAllSinhVienAsync();
+        
+        var sinhVienViewModel = new SinhVienViewModel
+        {
+            SinhViens = sinhViens
+        };
+        
+        return View(sinhVienViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateSinhVien([FromForm] CreateSinhVienDTO createSinhVienDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            var sinhViens = await _sinhVienRepository.GetAllSinhVienAsync();
+            var sinhVienViewModel = new SinhVienViewModel
+            {
+                SinhViens = sinhViens,
+                CreateSinhVienDTO = createSinhVienDto // giữ lại dữ liệu đã nhập
+            };
+            ViewData["ModelState"] = ModelState;
+            return View("~/Views/QuanLySinhVien/Index.cshtml", sinhVienViewModel);
+        }
+        
+        await _sinhVienRepository.CreateSinhVienAsync(createSinhVienDto);
+
+        return RedirectToAction("Index");
     }
 }

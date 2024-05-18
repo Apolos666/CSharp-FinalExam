@@ -1,0 +1,65 @@
+﻿@model CSharp_FinalExam.ViewModel.DynamicTableViewModel
+
+@{
+    Layout = null;
+}
+
+<style>
+    .custom-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 240px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+        border: 1px solid #555;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="mt-4 overflow-x-auto custom-scrollbar">
+    <table class="table-auto w-full mt-4">
+        <thead>
+        <tr>
+            <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap"><input type="checkbox"></th>
+            @foreach (var property in Model.Properties)
+            {
+                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">@property</th>
+            }
+            <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Tuỳ chọn</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td class="border px-4 py-2"><input type="checkbox"></td>
+                @foreach (var property in Model.Properties)
+                {
+                    <td class="border px-4 py-2 custom-truncate">@item.GetType().GetProperty(property).GetValue(item, null)</td>
+                }
+                <td class="border px-4 py-2 flex items-center justify-center gap-2">
+                    <button class="block bg-[#f4a261] p-2 text-white rounded-lg">Sửa</button>
+                    <button class="block bg-[#ce4257] p-2 text-white rounded-lg">Xoá</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -7,35 +7,12 @@
         new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
         new CSharp_FinalExam.Models.SinhVien { Id = 1, MaSinhVien = "SV01", HoTen = "Nguyen Van A dâdjadjadjajk dadjadadajkdadjadkjakdahjfashjfahjbđâjdjkadjkadjkj", NgaySinh = new DateTime(2000, 1, 1), SoDienThoai = "0123456789", Email = "nguyenvana@gmail.com", DiaChi = "Hanoi", GioiTinh = CSharp_FinalExam.Models.GioiTinhEnum.Nam, GPA = 3.5, LopSinhHoatId = 1 },
     };
+    
+    var properties = typeof(CSharp_FinalExam.Models.SinhVien).GetProperties()
+        .Where(prop => new[] { "Id", "MaSinhVien", "HoTen", "NgaySinh", "SoDienThoai", "Email", "DiaChi", "GioiTinh", "GPA", "LopSinhHoatId" }.Contains(prop.Name))
+        .Select(prop => prop.Name)
+        .ToList();
 }
-
-<style>
-    .custom-truncate {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 240px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar {
-        height: 10px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #888; 
-        border-radius: 5px; 
-        border: 1px solid #555; 
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-</style>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -50,55 +27,16 @@
                 </form>
                 <div class="flex items-center ml-12 cursor-pointer">
                     <img src="~/images/icons/mdi--filter.png" class="w-6 h-6" alt="">
-                    <div class="font-bold ml-3 text-gray-500">Filter</div>
+                    <div class="font-bold ml-3 text-gray-500">Filter</div> @* Todo: Suy nghĩ cách để làm popup cho cái này luôn *@
                 </div>
             </div>
             <div class="flex items-center relative">
                 <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
-                <button class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button>
+                <button class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button> @* Todo: Suy nghĩ cách để làm popup cho cái này *@
             </div>
         </div>
-        
     </div>
-    <div class="mt-4 overflow-x-auto custom-scrollbar">
-        <table class="table-auto w-full mt-4">
-            <thead>
-            <tr>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap"><input type="checkbox"></th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Id</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Mã Sinh Viên</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Họ Tên</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Ngày Sinh</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Số Điện Thoại</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Email</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Địa chỉ</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Giới tính</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">GPA</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Lớp sinh hoạt Id</th>
-                <th class="px-4 py-2 overflow-hidden text-ellipsis whitespace-nowrap">Tuỳ chọn</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var sinhVien in sinhVienList)
-            {
-                <tr>
-                    <td class="border px-4 py-2"><input type="checkbox"></td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.Id</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.MaSinhVien</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.HoTen</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.NgaySinh.ToString("dd/MM/yyyy")</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.SoDienThoai</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.Email</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.DiaChi</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.GioiTinh</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.GPA</td>
-                    <td class="border px-4 py-2 custom-truncate">@sinhVien.LopSinhHoatId</td>
-                    <td class="border px-4 py-2"><a class="cursor-pointer"><img class="w-10 h-10 mx-auto" src="~/images/icons/cil--options.png" alt=""></a></td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </div>
+    @await Component.InvokeAsync("DynamicTable", new { modelViewComponent = sinhVienList, propertiesViewComponent = properties })
     <div class="mt-4 mr-6 flex items-center justify-between">
         <div class="text-gray-400">Rows per page <p class="inline-block font-bold text-black">10</p> of 768 items</div>
         <div class="flex items-center gap-3 ">

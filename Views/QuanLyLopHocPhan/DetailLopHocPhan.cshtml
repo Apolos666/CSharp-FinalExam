@@ -1,0 +1,31 @@
+﻿@model LopHocPhan
+
+@{
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixed top-0 ml-[174px] mt-[140px] w-full">
+    <div class="">
+        <h1>Thông tin lớp học phần</h1>
+        <p>
+            <strong>Tên lớp:</strong> @Model.TenLop
+        </p>
+        <p>
+            <strong>Học kỳ:</strong> @Model.HocKy
+        </p>
+        <p>
+            <strong>Số tín chỉ:</strong> @Model.SoTinChi
+        </p>
+        <p>
+            <strong>Ngày bắt đầu:</strong> @Model.NgayBatDau.ToString("dd/MM/yyyy")
+        </p>
+        <p>
+            <strong>Ngày kết thúc:</strong> @Model.NgayKetThuc.ToString("dd/MM/yyyy")
+        </p>
+        <p>
+            <strong>Giáo viên id:</strong> @Model.GiaoVienId
+        </p>
+    </div>
+    <a asp-controller="QuanLyLopHocPhan" asp-action="Index" class="block w-[8%] text-nowrap mt-2 py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Trở lại</a>
+
+</div>

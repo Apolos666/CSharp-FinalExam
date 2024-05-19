@@ -1,0 +1,25 @@
+﻿@model DangKyHocPhan
+
+@{
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="fixed top-0 ml-[174px] mt-[140px] w-full">
+    <div class="">
+        <h1>Thông tin đăng ký học phần</h1>
+        <p>
+            <strong>Id:</strong> @Model.Id
+        </p>
+        <p>
+            <strong>Sinh viên id:</strong> @Model.SinhVienId
+        </p>
+        <p>
+            <strong>Lớp học phần id:</strong> @Model.LopHocPhanId
+        </p>
+        <p>
+            <strong>Ngày đăng ký:</strong> @Model.NgayDangKy
+        </p>
+    </div>
+    <a asp-controller="DangKyHocPhan" asp-action="Index" class="block w-[8%] text-nowrap mt-2 py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Trở lại</a>
+
+</div>

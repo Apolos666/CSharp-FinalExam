@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model CSharp_FinalExam.ViewModel.LopSinhHoatViewModel
+@model CSharp_FinalExam.ViewModel.DangKyHocPhanViewModel
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -8,8 +8,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var hasErrors = ViewData["ModelState"] as ModelStateDictionary;
 
-    var properties = typeof(LopSinhHoat).GetProperties()
-        .Where(prop => new[] { "Id", "TenLop", "HocKy", "GiaoVienChuNhiemId", "KhoaId" }.Contains(prop.Name))
+    var properties = typeof(DangKyHocPhan).GetProperties()
+        .Where(prop => new[] { "Id", "SinhVienId", "LopHocPhanId", "NgayDangKy" }.Contains(prop.Name))
         .Select(prop => prop.Name)
         .ToList();
 }
@@ -17,22 +17,14 @@
 <script>
     const setup = () => {
         return {
-            open: false,
+            open: false, // Complete refactor
         }
     }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        if ('@hasErrors?.IsValid' === 'False') {
-            document.getElementById('addPopup').classList.remove('hidden');
-            document.getElementById('addPopup').classList.add('block');
-        }
-    });
-
 </script>
 
 <style>
     [x-cloak] { display: none !important; }
-    
+
     .custom-scrollbar::-webkit-scrollbar {
         width: 8px;
     }
@@ -54,29 +46,19 @@
 </style>
 
 <div class="" x-data="setup()">
-    <div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="open" x-cloak>
+    <div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="open" x-transition x-cloak x-init="if ('@hasErrors?.IsValid' === 'False') { open = true; }">
         <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="open = false">
             <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-                <form asp-controller="QuanLyLopSinhHoat" asp-action="CreateLopSinhHoat" method="post">
-                    <div class="mt-4">
-                        <label asp-for="@Model.CreateLopSinhHoatDTO.TenLop" class="font-bold block"></label>
-                        <input asp-for="@Model.CreateLopSinhHoatDTO.TenLop" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập tên lớp">
-                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.TenLop" class="text-red-500 mt-2"></span>
+                <form asp-controller="DangKyHocPhan" asp-action="CreateDangKyHocPhan" method="post">
+                    <div class="">
+                        <label asp-for="@Model.CreateDangKyHocPhanDTO.SinhVienId" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateDangKyHocPhanDTO.SinhVienId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập tên sinh viên">
+                        <span asp-validation-for="@Model.CreateDangKyHocPhanDTO.SinhVienId" class="text-red-500 mt-2"></span>
                     </div>
                     <div class="mt-4">
-                        <label asp-for="@Model.CreateLopSinhHoatDTO.HocKy" class="font-bold block"></label>
-                        <input asp-for="@Model.CreateLopSinhHoatDTO.HocKy" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập học kỳ">
-                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.HocKy" class="text-red-500 mt-2"></span>
-                    </div>
-                    <div class="mt-4">
-                        <label asp-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="font-bold block"></label>
-                        <input asp-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập giáo viên chủ nhiệm id">
-                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="text-red-500 mt-2"></span>
-                    </div>
-                    <div class="mt-4">
-                        <label asp-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="font-bold block"></label>
-                        <input asp-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập khoa id">
-                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="text-red-500 mt-2"></span>
+                        <label asp-for="@Model.CreateDangKyHocPhanDTO.LopHocPhanId" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateDangKyHocPhanDTO.LopHocPhanId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp học phần">
+                        <span asp-validation-for="@Model.CreateDangKyHocPhanDTO.LopHocPhanId" class="text-red-500 mt-2"></span>
                     </div>
                     <div class="mt-4 flex justify-between">
                         <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
@@ -88,7 +70,7 @@
     </div>
 
     <div class="ml-[174px] mt-[140px]">
-        <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý lớp sinh hoạt</div>
+        <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý đăng ký học phần</div>
         <div class="mt-4 mr-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
@@ -103,20 +85,20 @@
                 </div>
                 <div class="flex items-center relative">
                     <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
-                    <button id="addButton" @@click="open = true" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm lớp sinh hoạt mới</button>
+                    <button id="addButton" @@click="open = true" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm đăng ký học phần mới</button>
                 </div>
             </div>
         </div>
         @await Component.InvokeAsync("DynamicTable",
-        new
-        {
-        modelViewComponent = Model.LopSinhHoats,
-        propertiesViewComponent = properties,
-        UpdateAction = "EditLopSinhHoat",
-        DeleteAction = "DeleteLopSinhHoat",
-        DetailAction = "DetailLopSinhHoat",
-        Controller = "QuanLyLopSinhHoat"
-        }
+            new
+            {
+                modelViewComponent = Model.DangKyHocPhans,
+                propertiesViewComponent = properties,
+                UpdateAction = "EditDangKyHocPhan",
+                DeleteAction = "DeleteDangKyHocPhan",
+                DetailAction = "DetailDangKyHocPhan",
+                Controller = "DangKyHocPhan"
+            }
         )
         <div class="mt-4 mr-6 flex items-center justify-between">
             <div class="text-gray-400">

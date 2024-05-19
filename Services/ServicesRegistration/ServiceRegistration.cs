@@ -7,6 +7,7 @@ using CSharp_FinalExam.Repositories.LopHocPhan;
 using CSharp_FinalExam.Repositories.LopSinhHoat;
 using CSharp_FinalExam.Repositories.SinhVien;
 using CSharp_FinalExam.Services.AuthenticationService;
+using CSharp_FinalExam.Services.AzureServices.BlobStorage;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSharp_FinalExam.Services.ServicesRegistration;
@@ -28,7 +29,8 @@ public static class ServiceRegistration
             .AddScoped<ILopSinhHoatRepository, LopSinhHoatRepository>()
             .AddScoped<IKhoaRepository, KhoaRepository>()
             .AddScoped<ILopHocPhanRepository, LopHocPhanRepository>()
-            .AddScoped<IDangKyHocPhanRepository, DangKyHocPhanRepository>();
+            .AddScoped<IDangKyHocPhanRepository, DangKyHocPhanRepository>()
+            .AddScoped<ISinhVienImageRepository, SinhVienImageRepository>();
 
         return service;
     }
@@ -37,12 +39,15 @@ public static class ServiceRegistration
     {
         service.AddScoped<IAuthenticationService, AuthenticationService.AuthenticationService>();
 
+        service.AddScoped<ISinhVienImageService, SinhVienImageService>();
+        
         return service;
     }
     
     public static IServiceCollection AddThirdPartyServices(this IServiceCollection service)
     {
         service.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        service.AddAzureServices();
         
         return service;
     }

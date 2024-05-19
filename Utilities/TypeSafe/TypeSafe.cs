@@ -8,14 +8,16 @@ public class TypeSafe
         public const string User = "User";
         public const string Contributor = "Contributor";
     }
-    
-    public static class Policies
-    {
-        public const string AdminRequirement = "Admin";
-    }
 
     public static class CookiesName
     {
         public static string Token = "ACCESS-TOKEN";
+    }
+    
+    public static class BlobContainerName
+    {
+        public static string SINH_VIEN_AVATAR = "sinhvien-avatar";
+        public static string SINH_VIEN_THE = "sinhvien-the";
+        public static string SINH_VIEN_CCCD = "sinhvien-cccd";
     }
 }

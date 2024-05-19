@@ -112,7 +112,7 @@
     <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiAnh" x-transition x-cloak>
         <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiAnh = false">
             <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                <form asp-controller="SinhVienImage" asp-action="UploadSinhVienAvatarImage" method="post" enctype="multipart/form-data">
                     <div class="font-bold text-white text-3xl">Thêm ảnh cho sinh viên</div>
                     <div class="mt-4">
                         <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>
@@ -136,7 +136,7 @@
     <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiTheSv" x-transition x-cloak>
         <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiTheSv = false">
             <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                <form asp-controller="SinhVienImage" asp-action="UploadSinhVienTheImage" method="post" enctype="multipart/form-data">
                     <div class="font-bold text-white text-3xl">Thêm thẻ sinh viên</div>
                     <div class="mt-4">
                         <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>
@@ -160,7 +160,7 @@
     <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiCCCD" x-transition x-cloak>
         <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiCCCD = false">
             <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                <form asp-controller="SinhVienImage" asp-action="UploadSinhVienCCCDImage" method="post" enctype="multipart/form-data">
                     <div class="font-bold text-white text-3xl">Thêm ảnh Căn cước công dân</div>
                     <div class="mt-4">
                         <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>

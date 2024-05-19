@@ -71,8 +71,8 @@ public class QuanLySinhVienController : Controller
     [HttpGet]
     public async Task<IActionResult> DetailSinhVien([FromRoute] int id)
     {
-        var detailSinhVien = await _sinhVienRepository.GetSinhVienByIdAsync(id);
-        return View("~/Views/QuanLySinhVien/DetailSinhVien.cshtml", detailSinhVien);
+        var detailSinhVienViewModel = await _sinhVienRepository.GetSinhVienDetailViewModelAsync(id);
+        return View("~/Views/QuanLySinhVien/DetailSinhVien.cshtml", detailSinhVienViewModel);
     }
     
     [HttpDelete]

@@ -26,4 +26,17 @@ public class SinhVienImageService : ISinhVienImageService
         await blobClient.UploadAsync(ms);
         return blobClient.Uri.AbsoluteUri;
     }
+
+    public async Task<string> DownloadSinhVienImageAsync(string imageUrl, string blobContainerName)
+    {
+        var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+        var fileName = Uri.UnescapeDataString(new Uri(imageUrl).Segments.LastOrDefault());
+        var blobClient = blobContainerClient.GetBlobClient(fileName);
+        var blobDownloadInfo = await blobClient.DownloadAsync();
+
+        using var ms = new MemoryStream();
+        await blobDownloadInfo.Value.Content.CopyToAsync(ms);
+        var bytes = ms.ToArray();
+        return Convert.ToBase64String(bytes);
+    }
 }

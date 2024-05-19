@@ -49,7 +49,7 @@
 </style>
 
 <div class="" x-data="setup()">
-    <div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiSinhVien" x-transition x-cloak x-init="if ('@hasErrors?.IsValid' === 'False') { openThemMoiSinhVien = true; }">
+    <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiSinhVien" x-transition x-cloak x-init="if ('@hasErrors?.IsValid' === 'False') { openThemMoiSinhVien = true; }">
         <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiSinhVien = false">
             <div class="h-full p-8 overflow-y-auto custom-scrollbar">
                 <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
@@ -109,6 +109,78 @@
         </div>
     </div>
 
+    <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiAnh" x-transition x-cloak>
+        <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiAnh = false">
+            <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                    <div class="font-bold text-white text-3xl">Thêm ảnh cho sinh viên</div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.SinhVienId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.ImageFile" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.ImageFile" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.ImageFile" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                        <button @@click.prevent="openThemMoiAnh = false" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiTheSv" x-transition x-cloak>
+        <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiTheSv = false">
+            <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                    <div class="font-bold text-white text-3xl">Thêm thẻ sinh viên</div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.SinhVienId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.ImageFile" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.ImageFile" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.ImageFile" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                        <button @@click.prevent="openThemMoiTheSv = false" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiCCCD" x-transition x-cloak>
+        <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiCCCD = false">
+            <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                    <div class="font-bold text-white text-3xl">Thêm ảnh Căn cước công dân</div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.SinhVienId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.SinhVienId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.AddSinhVienImageDto.ImageFile" class="font-bold block"></label>
+                        <input asp-for="@Model.AddSinhVienImageDto.ImageFile" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
+                        <span asp-validation-for="@Model.AddSinhVienImageDto.ImageFile" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                        <button @@click.prevent="openThemMoiCCCD = false" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <div class="ml-[174px] mt-[140px]">
         <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý sinh viên</div>
         <div class="mt-4 mr-6">

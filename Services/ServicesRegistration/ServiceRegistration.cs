@@ -1,6 +1,7 @@
 ﻿using CSharp_FinalExam.Configurations;
 using CSharp_FinalExam.Data;
 using CSharp_FinalExam.Repositories.GiaoVien;
+using CSharp_FinalExam.Repositories.Khoa;
 using CSharp_FinalExam.Repositories.LopSinhHoat;
 using CSharp_FinalExam.Repositories.SinhVien;
 using CSharp_FinalExam.Services.AuthenticationService;
@@ -22,7 +23,8 @@ public static class ServiceRegistration
 
         service.AddScoped<ISinhVienRepository, SinhVienRepository>()
             .AddScoped<IGiaoVienRepository, GiaoVienRepository>()
-            .AddScoped<ILopSinhHoatRepository, LopSinhHoatRepository>();
+            .AddScoped<ILopSinhHoatRepository, LopSinhHoatRepository>()
+            .AddScoped<IKhoaRepository, KhoaRepository>();
 
         return service;
     }

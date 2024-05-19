@@ -1,11 +1,14 @@
 ﻿using CSharp_FinalExam.DTOs.LopSinhHoat;
 using CSharp_FinalExam.Models;
 using CSharp_FinalExam.Repositories.LopSinhHoat;
+using CSharp_FinalExam.Utilities.TypeSafe;
 using CSharp_FinalExam.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharp_FinalExam.Controllers;
 
+[Authorize(Roles = TypeSafe.Roles.Admin)]
 public class QuanLyLopSinhHoatController : Controller
 {
     private readonly ILopSinhHoatRepository _lopSinhHoatRepository;

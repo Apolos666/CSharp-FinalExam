@@ -10,5 +10,5 @@ public class DangKyHocPhan
     public SinhVien SinhVien { get; set; }
     public int LopHocPhanId { get; set; }
     public LopHocPhan LopHocPhan { get; set; }
-    [Required] [DateVietFormat] public DateTime NgayDangKy { get; set; }
+    [Required] [DateVietFormat] public DateTime NgayDangKy { get; set; } = DateTime.Now; // Todo: thêm cái ToString ở bên View
 }

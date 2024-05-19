@@ -15,26 +15,19 @@
 }
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if ('@hasErrors?.IsValid' === 'False') {
-            document.getElementById('addPopup').classList.remove('hidden');
-            document.getElementById('addPopup').classList.add('block');
+    const setup = () => {
+        return {
+            openThemMoiSinhVien: false,
+            openThemMoiAnh: false,
+            openThemMoiTheSv: false,
+            openThemMoiCCCD: false,
         }
-
-        document.getElementById('addButton').addEventListener('click', function() {
-            document.getElementById('addPopup').classList.remove('hidden');
-            document.getElementById('addPopup').classList.add('block');
-        });
-
-        document.getElementById('cancelButtonAddPopup').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('addPopup').classList.remove('block');
-            document.getElementById('addPopup').classList.add('hidden');
-        });
-    });
+    }
 </script>
 
 <style>
+    [x-cloak] { display: none !important; }
+    
     .custom-scrollbar::-webkit-scrollbar {
         width: 8px;
     }
@@ -55,104 +48,120 @@
     }
 </style>
 
-<div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50 hidden">
-    <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg">
-        <div class="h-full p-8 overflow-y-auto custom-scrollbar">
-            <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
-                <div class="">
-                    <label asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.MaSinhVien" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.HoTen" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.HoTen" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.HoTen" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.NgaySinh" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập số điện thoại">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.SoDienThoai" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.DiaChi" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.DiaChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập địa chỉ">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.DiaChi" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.Email" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.Email" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập email">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.Email" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.GioiTinh" class="font-bold block"></label>
-                    <select asp-for="@Model.CreateSinhVienDTO.GioiTinh" asp-items="Html.GetEnumSelectList<GioiTinhEnum>()" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
-                        <option selected="selected" value="">Chọn giới tính</option>
-                    </select>
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.GioiTinh" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.GPA" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.GPA" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập GPA">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.GPA" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4">
-                    <label asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="font-bold block"></label>
-                    <input asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp sinh hoạt">
-                    <span asp-validation-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="text-red-500 mt-2"></span>
-                </div>
-                <div class="mt-4 flex justify-between">
-                    <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
-                    <button id="cancelButtonAddPopup" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="ml-[174px] mt-[140px]">
-    <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý sinh viên</div>
-    <div class="mt-4 mr-6">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <form class="flex relative">
-                    <img src="~/images/icons/ant-design--search-outlined.png" class="absolute top-[9px] left-6 w-6 h-6" alt="">
-                    <input class="py-2 pl-16 pr-4 items-center outline-none border-2 border-gray-200 rounded-lg" placeholder="Tìm kiếm bằng tên ...">
+<div class="" x-data="setup()">
+    <div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="openThemMoiSinhVien" x-transition x-cloak x-init="if ('@hasErrors?.IsValid' === 'False') { openThemMoiSinhVien = true; }">
+        <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="openThemMoiSinhVien = false">
+            <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+                <form asp-controller="QuanLySinhVien" asp-action="CreateSinhVien" method="post">
+                    <div class="">
+                        <label asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.MaSinhVien" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.MaSinhVien" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.HoTen" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.HoTen" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.HoTen" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.NgaySinh" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.NgaySinh" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.SoDienThoai" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập số điện thoại">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.SoDienThoai" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.DiaChi" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.DiaChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập địa chỉ">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.DiaChi" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.Email" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.Email" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập email">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.Email" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.GioiTinh" class="font-bold block"></label>
+                        <select asp-for="@Model.CreateSinhVienDTO.GioiTinh" asp-items="Html.GetEnumSelectList<GioiTinhEnum>()" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow">
+                            <option selected="selected" value="">Chọn giới tính</option>
+                        </select>
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.GioiTinh" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.GPA" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.GPA" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập GPA">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.GPA" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập lớp sinh hoạt">
+                        <span asp-validation-for="@Model.CreateSinhVienDTO.LopSinhHoatId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                        <button id="cancelButtonAddPopup" @@click.prevent="openThemMoiSinhVien = false" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    </div>
                 </form>
-                <div class="flex items-center ml-12 cursor-pointer">
-                    <img src="~/images/icons/mdi--filter.png" class="w-6 h-6" alt="">
-                    <div class="font-bold ml-3 text-gray-500">Filter</div> @* Todo: Suy nghĩ cách để làm popup cho cái này luôn *@
-                </div>
-            </div>
-            <div class="flex items-center relative">
-                <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
-                <button id="addButton" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button>
             </div>
         </div>
     </div>
-    @await Component.InvokeAsync("DynamicTable", 
-    new { modelViewComponent = Model.SinhViens, 
-        propertiesViewComponent = properties, 
-        UpdateAction = "EditSinhVien", 
-        DeleteAction = "DeleteSinhVien", 
+
+    <div class="ml-[174px] mt-[140px]">
+        <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý sinh viên</div>
+        <div class="mt-4 mr-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <form class="flex relative">
+                        <img src="~/images/icons/ant-design--search-outlined.png" class="absolute top-[9px] left-6 w-6 h-6" alt="">
+                        <input class="py-2 pl-16 pr-4 items-center outline-none border-2 border-gray-200 rounded-lg" placeholder="Tìm kiếm bằng tên ...">
+                    </form>
+                    <div class="flex items-center ml-12 cursor-pointer">
+                        <img src="~/images/icons/mdi--filter.png" class="w-6 h-6" alt="">
+                        <div class="font-bold ml-3 text-gray-500">Filter</div> @* Todo: Suy nghĩ cách để làm popup cho cái này luôn *@
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
+                        <button @@click="openThemMoiAnh = true" class="py-2 pl-10 pr-4 outline-none bg-[#70e000] text-white rounded-lg">Thêm ảnh</button>
+                    </div>
+                    <div class="relative">
+                        <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
+                        <button @@click="openThemMoiTheSv = true" class="py-2 pl-10 pr-4 outline-none bg-[#ffa6c1] text-white rounded-lg">Thêm thẻ SV</button>
+                    </div>
+                    <div class="relative">
+                        <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
+                        <button @@click="openThemMoiCCCD = true" class="py-2 pl-10 pr-4 outline-none bg-[#c77dff] text-white rounded-lg">Thêm CCCD</button>
+                    </div>
+                    <div class="relative">
+                        <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
+                        <button @@click="openThemMoiSinhVien = true" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm sinh viên mới</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("DynamicTable",
+        new { modelViewComponent = Model.SinhViens,
+        propertiesViewComponent = properties,
+        UpdateAction = "EditSinhVien",
+        DeleteAction = "DeleteSinhVien",
         DetailAction = "DetailSinhVien",
         Controller = "QuanLySinhVien" }
-    )
-    <div class="mt-4 mr-6 flex items-center justify-between">
-        <div class="text-gray-400">Rows per page <p class="inline-block font-bold text-black">10</p> of 768 items</div>
-        <div class="flex items-center gap-3 ">
-            <div class="cursor-pointer font-bold"><<</div>
-            <div class="cursor-pointer font-bold"><</div>
-            <div class="cursor-pointer text-[#3a86ff]">1</div>
-            <div class="cursor-pointer ">2</div>
-            <div class="cursor-pointer ">3</div>
-            <div class="cursor-pointer font-bold">></div>
-            <div class="cursor-pointer font-bold">>></div>
+        )
+        <div class="mt-4 mr-6 flex items-center justify-between">
+            <div class="text-gray-400">Rows per page <p class="inline-block font-bold text-black">10</p> of 768 items</div>
+            <div class="flex items-center gap-3 ">
+                <div class="cursor-pointer font-bold"><<</div>
+                <div class="cursor-pointer font-bold"><</div>
+                <div class="cursor-pointer text-[#3a86ff]">1</div>
+                <div class="cursor-pointer ">2</div>
+                <div class="cursor-pointer ">3</div>
+                <div class="cursor-pointer font-bold">></div>
+                <div class="cursor-pointer font-bold">>></div>
+            </div>
         </div>
     </div>
 </div>

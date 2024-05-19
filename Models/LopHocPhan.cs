@@ -11,7 +11,7 @@ public class LopHocPhan
     [Required] public string TenLop { get; set; }
     [Required] public int HocKy { get; set; }
     [Required] public int SoTinChi { get; set; }
-    [Required] [DateVietFormat] public DateTime NgayBatDau { get; set; }
+    [Required] [DateVietFormat] [DateLessThan("NgayKetThuc")] public DateTime NgayBatDau { get; set; }
     [Required] [DateVietFormat] public DateTime NgayKetThuc { get; set; }
     [Required] [ForeignKey("GiaoVien")] public int GiaoVienId { get; set; }
     public GiaoVien? GiaoVien { get; set; }

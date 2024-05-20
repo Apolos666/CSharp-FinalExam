@@ -23,11 +23,22 @@ public class SinhVienRepository : ISinhVienRepository
         _mapper = mapper;
         _sinhVienImageService = sinhVienImageService;
     }
-    
+
     public async Task<IEnumerable<Models.SinhVien>> GetAllSinhVienAsync()
     {
         var sinhViens = await _dbContext.SinhViens.ToListAsync();
+        
         return sinhViens;
+    }
+
+    public async Task<IEnumerable<Models.SinhVien>> GetAllSinhVienAsync(FilterSinhVienDTO filterSinhVienDto)
+    {
+        var sinhViens = _dbContext.SinhViens.AsQueryable();
+
+        if (!string.IsNullOrEmpty(filterSinhVienDto.FilterTen))
+            sinhViens = sinhViens.Where(sv => sv.HoTen.Contains(filterSinhVienDto.FilterTen));
+        
+        return await sinhViens.ToListAsync();
     }
     
     public async Task<Models.SinhVien?> GetSinhVienByIdAsync(int id)

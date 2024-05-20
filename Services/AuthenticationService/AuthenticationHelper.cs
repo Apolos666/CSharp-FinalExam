@@ -19,6 +19,6 @@ public static class AuthenticationHelper
             claims.Add(new Claim(ClaimTypes.Role, role));        
         }
 
-        return claims;
+        return claims; // Roles, Claim, Policy
     }
 }

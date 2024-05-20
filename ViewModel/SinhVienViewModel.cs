@@ -8,4 +8,5 @@ public class SinhVienViewModel
     public IEnumerable<SinhVien> SinhViens { get; set; }
     public CreateSinhVienDTO CreateSinhVienDTO { get; set; }
     public AddSinhVienImageDTO? AddSinhVienImageDto { get; set; }
+    public FilterSinhVienDTO? FilterSinhVienDto { get; set; }
 }

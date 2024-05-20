@@ -18,9 +18,9 @@ public class QuanLySinhVienController : Controller
         _sinhVienRepository = sinhVienRepository;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromForm] FilterSinhVienDTO filterSinhVienDto)
     {
-        var sinhViens = await _sinhVienRepository.GetAllSinhVienAsync();
+        var sinhViens = await _sinhVienRepository.GetAllSinhVienAsync(filterSinhVienDto);
         
         var sinhVienViewModel = new SinhVienViewModel
         {

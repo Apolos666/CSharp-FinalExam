@@ -16,7 +16,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Khoa> Khoas { get; set; }
     public DbSet<Truong> Truongs { get; set; }
     public DbSet<DangKyHocPhan> DangKyHocPhans { get; set; }
-
+    public DbSet<SinhVienImage> SinhVienImages { get; set; }
+    public DbSet<SinhVienTheSV> SinhVienTheSvs { get; set; }
+    public DbSet<SinhVienCCCD> SinhVienCccds { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

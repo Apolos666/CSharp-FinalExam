@@ -1,40 +1,89 @@
-﻿@model SinhVien
+﻿@model CSharp_FinalExam.ViewModel.SinhVienDetailViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="fixed top-0 ml-[174px] mt-[140px] w-full">
+<div class="fixed top-0 ml-[174px] mt-[140px]">
     <div class="">
         <h1>Thông tin sinh viên</h1>
         <p>
-            <strong>Mã sinh viên:</strong> @Model.MaSinhVien
+            <strong>Mã sinh viên:</strong> @Model.SinhVien.MaSinhVien
         </p>
         <p>
-            <strong>Họ tên:</strong> @Model.HoTen
+            <strong>Họ tên:</strong> @Model.SinhVien.HoTen
         </p>
         <p>
-            <strong>Ngày sinh:</strong> @Model.NgaySinh.ToString("dd/MM/yyyy")
+            <strong>Ngày sinh:</strong> @Model.SinhVien.NgaySinh.ToString("dd/MM/yyyy")
         </p>
         <p>
-            <strong>Số điện thoại:</strong> @Model.SoDienThoai
+            <strong>Số điện thoại:</strong> @Model.SinhVien.SoDienThoai
         </p>
         <p>
-            <strong>Email:</strong> @Model.Email
+            <strong>Email:</strong> @Model.SinhVien.Email
         </p>
         <p>
-            <strong>Địa chỉ:</strong> @Model.DiaChi
+            <strong>Địa chỉ:</strong> @Model.SinhVien.DiaChi
         </p>
         <p>
-            <strong>Giới tính:</strong> @Model.GioiTinh
+            <strong>Giới tính:</strong> @Model.SinhVien.GioiTinh
         </p>
         <p>
-            <strong>GPA:</strong> @Model.GPA
+            <strong>GPA:</strong> @Model.SinhVien.GPA
         </p>
         <p>
-            <strong>Lớp sinh hoạt:</strong> @Model.LopSinhHoatId
+            <strong>Lớp sinh hoạt:</strong> @Model.SinhVien.LopSinhHoatId
         </p>
     </div>
-    <a asp-controller="QuanLySinhVien" asp-action="Index" class="block w-[8%] text-nowrap mt-2 py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Trở lại</a>
-
+    <a asp-controller="QuanLySinhVien" asp-action="Index" class="block w-1/3 text-nowrap mt-2 py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Trở lại</a>
+</div>
+<div class="ml-[850px] mt-[140px] mr-4">
+    <div x-data="{ expanded: false }">
+        <div class="flex items-center">
+            <div @@click="expanded = !expanded" class="font-bold mr-2 text-2xl">Ảnh Sinh viên</div>
+            <div :class="expanded ? 'rotate-90' : 'rotate-0'" x-transition>
+                <img class="w-6 h-6" src="~/images/icons/icon-park-solid--right-one.png" alt="">
+            </div>
+        </div>
+        <div x-show="expanded" x-collapse class="grid grid-cols-3 gap-2 mt-2">
+            @{
+                foreach (var sinhVienImage64 in Model.SinhVienImage64s)
+                {
+                    <img class="h-28" src="data:image/jpeg;base64,@sinhVienImage64" alt="">
+                }
+            }
+        </div>
+    </div>
+    <div x-data="{ expanded: false }" class="mt-2">
+        <div class="flex items-center">
+            <div @@click="expanded = !expanded" class="font-bold mr-2 text-2xl">Ảnh Sinh viên</div>
+            <div :class="expanded ? 'rotate-90' : 'rotate-0'" x-transition>
+                <img class="w-6 h-6" src="~/images/icons/icon-park-solid--right-one.png" alt="">
+            </div>
+        </div>
+        <div x-show="expanded" x-collapse class="grid grid-cols-3 gap-2 mt-2">
+            @{
+                foreach (var sinhVienThe64 in Model.SinhVienThe64s)
+                {
+                    <img class="h-28" src="data:image/jpeg;base64,@sinhVienThe64" alt="">
+                }
+            }
+        </div>
+    </div>
+    <div x-data="{ expanded: false }" class="mt-2">
+        <div class="flex items-center">
+            <div @@click="expanded = !expanded" class="font-bold mr-2 text-2xl">Ảnh Sinh viên</div>
+            <div :class="expanded ? 'rotate-90' : 'rotate-0'" x-transition>
+                <img class="w-6 h-6" src="~/images/icons/icon-park-solid--right-one.png" alt="">
+            </div>
+        </div>
+        <div x-show="expanded" x-collapse class="grid grid-cols-3 gap-2 mt-2">
+            @{
+                foreach (var sinhVienCccd64 in Model.SinhVienCCCD64s)
+                {
+                    <img class="h-28" src="data:image/jpeg;base64,@sinhVienCccd64" alt="">
+                }
+            }
+        </div>
+    </div>
 </div>

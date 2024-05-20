@@ -1,0 +1,73 @@
+﻿@model LopHocPhan
+
+@{
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+        border: 1px solid #555;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
+<div class="fixed top-0 ml-[174px] mt-[140px] font-bold text-xl">Sửa lớp học phần: @Model.TenLop</div>
+<div class="fixed top-0 ml-[174px] mt-[200px] h-[80vh] w-full">
+    <div class="custom-scrollbar h-5/6 w-[88%] overflow-y-auto">
+        <form asp-controller="QuanLyLopHocPhan" asp-action="UpdateLopHocPhan" asp-route-id="@Model.Id" method="post">
+            <div class="">
+                <label asp-for="@Model.Id" class="font-bold block"></label>
+                <input asp-for="@Model.Id" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-gray-200 rounded-lg shadow bg-gray-200" placeholder="Nhập mã sinh viên" readonly>
+                <span asp-validation-for="@Model.Id" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.TenLop" class="font-bold block">Tên lớp</label>
+                <input asp-for="@Model.TenLop" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập mã sinh viên">
+                <span asp-validation-for="@Model.TenLop" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.HocKy" class="font-bold block">Học kỳ</label>
+                <input asp-for="@Model.HocKy" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập họ tên">
+                <span asp-validation-for="@Model.HocKy" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.SoTinChi" class="font-bold block">Số tín chỉ</label>
+                <input asp-for="@Model.SoTinChi" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                <span asp-validation-for="@Model.SoTinChi" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.NgayBatDau" class="font-bold block">Ngày bắt đầu</label>
+                <input asp-for="@Model.NgayBatDau" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                <span asp-validation-for="@Model.NgayBatDau" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.NgayKetThuc" class="font-bold block">Ngày kết thúc</label>
+                <input asp-for="@Model.NgayKetThuc" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                <span asp-validation-for="@Model.NgayKetThuc" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4">
+                <label asp-for="@Model.GiaoVienId" class="font-bold block">Giáo viên id</label>
+                <input asp-for="@Model.GiaoVienId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập ngày sinh">
+                <span asp-validation-for="@Model.GiaoVienId" class="text-red-500 mt-2"></span>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <button type="submit" class="py-3 px-10 outline-none bg-[#fcbf49] rounded-lg text-white shadow font-bold">Sửa</button>
+                <button asp-controller="QuanLyLopHocPhan" asp-action="Index" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Trở lại</button>
+            </div>
+        </form>
+    </div>
+</div>

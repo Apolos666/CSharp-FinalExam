@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CSharp_FinalExam.ViewModel.LopSinhHoatViewModel
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var hasErrors = ViewData["ModelState"] as ModelStateDictionary;
+
+    var properties = typeof(LopSinhHoat).GetProperties()
+        .Where(prop => new[] { "Id", "TenLop", "HocKy", "GiaoVienChuNhiemId", "KhoaId" }.Contains(prop.Name))
+        .Select(prop => prop.Name)
+        .ToList();
+}
+
+<script>
+    const setup = () => {
+        return {
+            open: false,
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        if ('@hasErrors?.IsValid' === 'False') {
+            document.getElementById('addPopup').classList.remove('hidden');
+            document.getElementById('addPopup').classList.add('block');
+        }
+    });
+
+</script>
+
+<style>
+    [x-cloak] { display: none !important; }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+        border: 1px solid #555;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
+<div class="" x-data="setup()">
+    <div id="addPopup" class="fixed top-0 w-full h-full z-20 bg-gray-100 bg-opacity-50" x-show="open" x-cloak>
+        <div class="w-3/5 h-4/5 mt-12 mx-auto bg-gradient-to-r from-[#9fccfa] to-[#60efff] rounded-lg" @@click.outside="open = false">
+            <div class="h-full p-8 overflow-y-auto custom-scrollbar">
+                <form asp-controller="QuanLyLopSinhHoat" asp-action="CreateLopSinhHoat" method="post">
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateLopSinhHoatDTO.TenLop" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateLopSinhHoatDTO.TenLop" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập tên lớp">
+                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.TenLop" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateLopSinhHoatDTO.HocKy" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateLopSinhHoatDTO.HocKy" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập học kỳ">
+                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.HocKy" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập giáo viên chủ nhiệm id">
+                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.GiaoVienChuNhiemId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label asp-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="font-bold block"></label>
+                        <input asp-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="w-full py-3 pl-4 mt-2 outline-none border-2 border-white rounded-lg shadow" placeholder="Nhập khoa id">
+                        <span asp-validation-for="@Model.CreateLopSinhHoatDTO.KhoaId" class="text-red-500 mt-2"></span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <button type="submit" class="py-3 px-10 outline-none bg-[#80ed99] rounded-lg text-white shadow font-bold">Thêm</button>
+                        <button id="cancelButtonAddPopup" @@click.prevent="open = false" class="py-3 px-10 outline-none bg-[#ce4257] rounded-lg text-white shadow font-bold">Huỷ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="ml-[174px] mt-[140px]">
+        <div class="font-bold uppercase text-2xl text-[#3a86ff]">Quản lý lớp sinh hoạt</div>
+        <div class="mt-4 mr-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <form class="flex relative">
+                        <img src="~/images/icons/ant-design--search-outlined.png" class="absolute top-[9px] left-6 w-6 h-6" alt="">
+                        <input class="py-2 pl-16 pr-4 items-center outline-none border-2 border-gray-200 rounded-lg" placeholder="Tìm kiếm bằng tên ...">
+                    </form>
+                    <div class="flex items-center ml-12 cursor-pointer">
+                        <img src="~/images/icons/mdi--filter.png" class="w-6 h-6" alt="">
+                        <div class="font-bold ml-3 text-gray-500">Filter</div> @* Todo: Suy nghĩ cách để làm popup cho cái này luôn *@
+                    </div>
+                </div>
+                <div class="flex items-center relative">
+                    <img src="~/images/icons/typcn--plus.png" class="absolute left-3 top-2 w-6 h-6" alt="">
+                    <button id="addButton" @@click="open = true" class="py-2 pl-10 pr-4 outline-none bg-[#3a86ff] text-white rounded-lg">Thêm lớp sinh hoạt mới</button>
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("DynamicTable",
+        new
+        {
+        modelViewComponent = Model.LopSinhHoats,
+        propertiesViewComponent = properties,
+        UpdateAction = "EditLopSinhHoat",
+        DeleteAction = "DeleteLopSinhHoat",
+        DetailAction = "DetailLopSinhHoat",
+        Controller = "QuanLyLopSinhHoat"
+        }
+        )
+        <div class="mt-4 mr-6 flex items-center justify-between">
+            <div class="text-gray-400">
+                Rows per page
+                <p class="inline-block font-bold text-black">10</p> of 768 items
+            </div>
+            <div class="flex items-center gap-3 ">
+                <div class="cursor-pointer font-bold"><<</div>
+                <div class="cursor-pointer font-bold"><</div>
+                <div class="cursor-pointer text-[#3a86ff]">1</div>
+                <div class="cursor-pointer ">2</div>
+                <div class="cursor-pointer ">3</div>
+                <div class="cursor-pointer font-bold">></div>
+                <div class="cursor-pointer font-bold">>></div>
+            </div>
+        </div>
+    </div>
+</div>

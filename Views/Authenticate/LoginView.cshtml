@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+    var returnUrl = Url.Action("Index", "Home");
+}
+@model CSharp_FinalExam.DTOs.IdentityDTOs.UserLogin
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+@if (Model != null && !string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <script>
+        alert("@Model.ErrorMessage");
+    </script>
+}
+
+<div class="m-10">Hello</div>
+<div class="flex mx-16 my-10">
+    <div class="flex-1 border-[1px] border-black rounded-l-lg">
+        <div class="m-6">
+            <div class="text-2xl">Welcome !</div>
+            <div class="mt-6">
+                <div class="text-3xl font-bold">Sign in to</div>
+                <div class="">Đăng nhập để trải nghiệm dịch vụ của chúng tôi</div>
+            </div>
+            <form asp-controller="Authenticate" asp-action="LoginUser" method="post" class="mt-8">
+                <div class="">
+                    <label asp-for="UserOrEmail" class="block"></label>
+                    <input asp-for="UserOrEmail" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="text" placeholder="Enter your username or email">
+                    <span asp-validation-for="UserOrEmail" class="text-red-500"></span>
+                </div>
+                <div class="">
+                    <label asp-for="Password" class="mt-6 block">Password</label>
+                    <input asp-for="Password" class="mt-2 outline-none py-3 px-6 border-2 border-[#282828] rounded-lg block w-full" type="password" placeholder="Enter your password">
+                    <span asp-validation-for="Password" class="text-red-500"></span>
+                </div>
+                <div class="my-4 mx-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input asp-for="IsRememberMe" type="checkbox" lass="outline-none border-2 border-black p-4">
+                        <div class="ml-2">Remember me</div>
+                    </div>
+                    <a href="" class="">Forgot password?</a>
+                </div>
+                <button class="my-8 block w-full p-4 rounded-lg text-white bg-black">Login</button>
+            </form>
+            <form asp-controller="Authenticate" asp-action="ExternalLogin" asp-route-returnUrl="@returnUrl">
+                <button type="submit" name="provider" value="Google" class="my-8 block w-full p-4 rounded-lg text-white bg-black">
+                    Login with Google
+                </button>
+            </form>
+            <div class="text-center my-8">
+                Don't have an Account? <a asp-controller="Authenticate" asp-action="RegisterView" class="font-bold">Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="flex-1">
+        <img class="rounded-r-lg" src="~/images/login/OIG1.scaIHwiWer.jpg" alt="">
+    </div>
+</div>

@@ -37,6 +37,18 @@ public class SinhVienRepository : ISinhVienRepository
 
         if (!string.IsNullOrEmpty(filterSinhVienDto.FilterTen))
             sinhViens = sinhViens.Where(sv => sv.HoTen.Contains(filterSinhVienDto.FilterTen));
+
+        if (filterSinhVienDto is { IsFilterByDate: true, StartDateTime: not null, EndDateTime: not null })
+            sinhViens = sinhViens.Where(sv => sv.NgaySinh >= filterSinhVienDto.StartDateTime && sv.NgaySinh <= filterSinhVienDto.EndDateTime);
+
+        if (filterSinhVienDto is { IsFilterByGender: true, GioiTinhEnumFilter: not null })
+            sinhViens = sinhViens.Where(sv => sv.GioiTinh == filterSinhVienDto.GioiTinhEnumFilter);
+
+        if (filterSinhVienDto is { IsFilterByGPA: true, StartGPAFilter: not null, EndGPAFilter: not null })
+            sinhViens = sinhViens.Where(sv => sv.GPA >= filterSinhVienDto.StartGPAFilter && sv.GPA <= filterSinhVienDto.EndGPAFilter);
+
+        if (filterSinhVienDto is { IsFilterLopSinhHoatId: true, FilterLopSinhHoatId: not null })
+            sinhViens = sinhViens.Where(sv => sv.LopSinhHoatId == filterSinhVienDto.FilterLopSinhHoatId);
         
         return await sinhViens.ToListAsync();
     }

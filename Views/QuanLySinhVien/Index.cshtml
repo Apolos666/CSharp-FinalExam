@@ -187,15 +187,15 @@
             <form asp-controller="QuanLySinhVien" asp-action="Index" method="post">
                 <div class="flex items-center gap-3">
                     <div class="">
-                        <label class="text-xl">Lọc theo ngày</label>
+                        <label class="text-xl">Lọc theo ngày sinh</label>
                         <input asp-for="@Model.FilterSinhVienDto.IsFilterByDate" type="checkbox">
                     </div>
                     <div class="flex gap-2">
                         <div>
-                            <input class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" asp-for="@Model.FilterSinhVienDto.StartDateTime">
+                            <input asp-for="@Model.FilterSinhVienDto.StartDateTime" class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" >
                         </div>
                         <div>
-                            <input class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" asp-for="@Model.FilterSinhVienDto.EndDateTime">
+                            <input asp-for="@Model.FilterSinhVienDto.EndDateTime" class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" >
                         </div>
                     </div>
                 </div>
@@ -217,7 +217,21 @@
                     </div>
                     <div class="flex gap-2">
                         <div>
-                            <input class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" asp-for="@Model.FilterSinhVienDto.GPAFilter" placeholder="Nhập GPA muốn lọc">
+                            <input asp-for="@Model.FilterSinhVienDto.StartGPAFilter" class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" placeholder="Nhập GPA min">
+                        </div>
+                        <div>
+                            <input asp-for="@Model.FilterSinhVienDto.EndGPAFilter" class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" placeholder="Nhập GPA max">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="">
+                        <label class="text-xl">Lọc theo Lớp sinh hoạt id</label>
+                        <input asp-for="@Model.FilterSinhVienDto.IsFilterLopSinhHoatId" type="checkbox">
+                    </div>
+                    <div class="flex gap-2">
+                        <div>
+                            <input asp-for="@Model.FilterSinhVienDto.FilterLopSinhHoatId" class="py-3 pl-4 mt-2 outline-none border-2 border-[#3a86ff] rounded-lg shadow" placeholder="Nhập lớp sinh hoạt id">
                         </div>
                     </div>
                 </div>

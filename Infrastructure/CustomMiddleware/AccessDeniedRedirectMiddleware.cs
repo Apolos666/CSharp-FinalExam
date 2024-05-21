@@ -12,10 +12,15 @@ public class AccessDeniedRedirectMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         await _next(context);
-        
-        if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+
+        switch (context.Response.StatusCode)
         {
-            context.Response.Redirect("/error/access-denied");
+            case StatusCodes.Status401Unauthorized:
+                context.Response.Redirect("/authenticate/login-view");
+                break;
+            case StatusCodes.Status403Forbidden:
+                context.Response.Redirect("/error/access-denied");
+                break;
         }
     }
 }

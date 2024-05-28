@@ -1,3 +1,5 @@
+# Trần Đức Quang - 21115053120343 - 223LTC01
+
 ﻿# Bài tâp lớn cuối kì C# - Quản lý sinh viên
 Dự án "Quản Lý Sinh Viên" là một ứng dụng web được xây dựng bằng C#, nhằm mục đích quản lý thông tin sinh viên một cách hiệu quả và tiện lợi.
 
